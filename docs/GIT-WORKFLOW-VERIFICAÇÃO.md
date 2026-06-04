@@ -172,3 +172,37 @@ gh pr list --repo wagnerpv/agente-monorepo-template --state open
 | delete branch local | `git branch` |
 | delete branch remote | `git branch -r \| grep <branch>` |
 | prune | `git branch -r` |
+
+---
+
+## Fluxo Obrigatório Pós-Aprovação de PR
+
+Toda vez que o TL aprovar, mesclar e apagar uma branch, o agente DEVE executar:
+
+```bash
+# 1. Voltar para main e sincronizar
+git checkout main
+git pull --ff-only origin main
+
+# 2. Buscar estado real do remote e remover referências stale
+git fetch --all --prune
+
+# 3. Deletar branches locais cujo remote foi apagado
+git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
+
+# 4. Se ainda houver branches stale após o prune, forçar delete remoto
+git push origin --delete <branch> 2>/dev/null || true
+git fetch --all --prune
+```
+
+### Verificação Final Obrigatória
+```bash
+echo "Branches locais:  $(git branch | tr '\n' ' ')"
+echo "Branches remotas: $(git branch -r | grep -v HEAD | tr '\n' ' ')"
+# Resultado esperado: local e remote espelham exatamente o mesmo conjunto de branches.
+```
+
+### Invariante a Manter
+> O agente nunca deve ter uma branch local que não existe no remote,
+> nem uma referência remota que o TL já apagou.
+> Local = Remote. Sempre.
