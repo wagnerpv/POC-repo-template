@@ -1,4 +1,4 @@
-# aggente-perplexity-sandbox
+# agente-perplexity-sandbox
 
 Minimal workspace bootstrap for running a local workflow compatible with Perplexity-style sandbox tasks.
 
