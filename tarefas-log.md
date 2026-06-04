@@ -68,3 +68,9 @@
 - `docs/ANÁLISE_POC_CARTEIRO_SERVICE_2026.md` criado
 - Artefatos candidatos: `db.ts` (JSON store standalone), `sendFormEmail.ts` (multi-provider), `queryParser.ts`, padrão routing via middleware.ts
 - Análise de `backup-edge40` ainda pendente (apenas tarefa criada, análise não executada)
+
+## 2026-06-04T23:00-03:00
+
+- Arquivos renomeados para padrão português com hífens (tasks-log.md → tarefas-log.md, docs/*.md)
+- `tarefas-retomada.md` criado com contexto completo para retomada em nova sessão
+- Inconsistência de idioma (tasks vs tarefas) corrigida em toda a documentação
