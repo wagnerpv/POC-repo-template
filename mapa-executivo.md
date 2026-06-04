@@ -180,7 +180,7 @@ Segundo produto a entrar em operação. Valida o template como plataforma reutil
 Migração do sistema em produção para o template padrão. O template tem que atender seus requisitos reais.
 
 **Prioridade 4 — carteiro**
-Migração para o template, descomissionando o repositório legado. O serviço assume produção no novo stack.
+Migração do POC-carteiro-service-2026 para o template. Ao concluir, assume produção descomissionando o box00-carteiro-service (legado).
 
 ### Implicações
 

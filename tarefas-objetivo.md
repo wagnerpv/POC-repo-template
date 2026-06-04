@@ -158,7 +158,7 @@ Segundo produto a entrar em operação. Valida o template como plataforma reutil
 Migração do sistema de agendamentos do stack legado para o template padrão. O template tem que ser capaz de atender os requisitos deste sistema em produção.
 
 **Prioridade 4 — carteiro**
-Migração do serviço de email do repositório legado para o template padrão. Ao concluir, o repositório legado é descomissionado e o serviço assume produção no novo stack.
+Migração do POC-carteiro-service-2026 para o template padrão. Ao concluir, o serviço assume produção descomissionando o box00-carteiro-service (legado).
 
 ### Implicação para o Template
 
