@@ -27,145 +27,148 @@ Produtos entregues sem plataforma madura viram legado rápido. O custo de retrab
 - **TypeScript** — strict mode. Sem exceções.
 
 ### Frontend
-- **Astro** — em transição. POC-astro00 está eliminando a dependência do Astro framework gradualmente.
+- **Astro** — em transição. POC-astro00 visa eliminar a dependência do Astro framework.
 - **CSS Custom Properties** — sem Tailwind JIT, sem lock-in de bundler.
 - **DataStar** — reatividade leve no cliente.
 
-### Backend e HTTP
-- **Bun.fetch** — HTTP client nativo. Sem Axios, sem node-fetch.
-- **eco00-event-system** — caminhando para ser o padrão de backend, inclusive para auth, RBAC, email transacional e realtime event-based API.
+### Backend
+- **Bun.fetch** — HTTP client nativo.
+- **eco00-event-system** — backbone de comunicação entre serviços. Aplicações publicam eventos, serviços subscrevem. Sem chamadas diretas de API entre serviços.
 - Routing via middleware. Sem framework de API como padrão.
 
 ### Banco de Dados
-- **MySQL** — canônico para produção.
-- **SQLite** — apenas em sandbox ou ambientes que não suportam MySQL.
-- Sem ORM externo como padrão — abstrações próprias.
-
-### Serviços Internos Padronizados
-Serviços de plataforma reutilizáveis entre produtos:
-- **auth** — autenticação centralizada
-- **sendmail** — email transacional
-- **notifications** — notificações (push, in-app, email)
-- Outros serviços de suporte a produtos
+- **MySQL** — canônico para produção quando o produto exige.
+- **SQLite** — para produtos mais simples ou ambientes que não suportam MySQL.
+- Package canônico de acesso a banco de dados a definir — múltiplos candidatos a avaliar (box00-monorepo, tokke, outros). Carteiro não é o candidato principal.
 
 ### Infra e Deployment
-- **Docker** — padrão de deployment. `unless-stopped` como política de restart. Sem PM2.
-- **Caddy** — reverse proxy.
-- **Formato declarativo** — configuração em formato declarativo sempre que viável (YAML, TOML, etc.). JSON quando necessário, não como regra.
+- **Docker** — padrão universal. Desenvolvimento local e produção.
+- **Caddy** — reverse proxy. Um por VPS.
+- **NATS + JetStream** — mensageria para eco00-event-system. Containers a nível de VPS.
+- **Restart policy:** `unless-stopped`. Sem PM2.
+- **Formato declarativo** — configuração em YAML, TOML ou equivalente sempre que viável.
 
 ---
 
-## Convenções de Plataforma
+## Arquitetura de Infra
 
-### Filesystem de Ambiente
-Todo ambiente de servidor resolve para `~/box00/<tenantId>`.
+### Containers por VPS (propriedade da VPS)
+- Caddy — reverse proxy e TLS
+- NATS + JetStream — barramento de eventos do eco00
 
-Exemplos: `~/box00/tokke-producao`, `~/box00/tokke-demo`, `~/box00/brcitas-producao`
+### Containers por Aplicação (propriedade da aplicação)
+- Container da aplicação em si
+- Container de banco de dados quando necessário (MySQL ou SQLite via volume)
+- Serviços específicos da aplicação
 
-- `config/` — configuração persistente
-- `secrets/` — chaves, material criptográfico
-- `data/` — dados de aplicação (SQLite, arquivos)
-- `state/` — estado operacional (checkpoints, cursors)
-- `cache/` — artefatos regeneráveis
-- `logs/` — logs append-only
-- `tmp/` — temporários descartáveis
-- `run/` — PID files, locks, sockets
+Banco de dados nunca é compartilhado entre aplicações. Cada aplicação é dona do seu container de banco.
 
-### Estrutura de Monorepo
-```
-apps/        → aplicações deployáveis
-packages/    → libraries compartilhadas
-services/    → daemons e workers
-mcps/        → MCP servers para agentes AI
-integrations/→ adaptadores de serviços externos
-standards/   → ADRs, convenções, runbooks
-docs/        → documentação centralizada
-```
+---
 
-### Naming de Ambientes
-`<tenantId>-<envId>` — ex: `tokke-producao`, `tokke-demo`, `brcitas-producao`
+## eco00-event-system — Arquitetura de Serviços
+
+Serviços internos da plataforma comunicam via eventos, não via chamadas de API diretas.
+
+**Exemplo — autenticação:**
+1. Aplicação publica evento `login.solicitado` com credenciais
+2. Serviço de auth subscreve, valida, publica `login.aceito` ou `login.rejeitado`
+3. Aplicação ouve o resultado
+
+**Serviços internos a implementar via eco00:**
+- **auth** — autenticação e sessão
+- **sendmail** — email transacional (inclui carteiro como subscriber)
+- **notifications** — notificações push, in-app, email
+- **RBAC** — controle de acesso baseado em roles
 
 ---
 
 ## Packages da Plataforma
 
-### Prontos ou em Extração
-- **`@box00/ssr-foundations`** — SSR server com Bun + Preact. Filesystem routing, middleware, RBAC, session management.
+### Em uso ou prontos para extração
+- **`@box00/ssr-foundations`** — SSR server Bun + Preact. Filesystem routing, middleware, RBAC, session.
 - **`@box00/data-dictionary-v1`** — schema canônico de Data Dictionary com Zod.
 - **`@box00/dd-validation-runtime`** — runtime de validação baseado no Data Dictionary.
-- **`app00ui-astro`** — biblioteca de componentes UI para Astro. 21 componentes, design tokens, CSS Custom Properties.
+- **`app00ui-astro`** — biblioteca de componentes UI para Astro. 21 componentes, design tokens.
 
-### Em Desenvolvimento / POC
-- **POC-astro00** — elimina dependência do Astro framework. Usa `@astrojs/compiler` WASM + Bun nativo.
-- **eco00-event-system** — sistema de eventos como backbone do backend. Candidato a padrão de serviços.
-- **MCP Foundations** — runtime para MCP servers com filesystem como source of truth.
+### Candidatos identificados — a avaliar e consolidar
+A análise dos repositórios de referência revelou múltiplos candidatos para cada categoria. Para cada uma, a tarefa é: identificar todos os candidatos, avaliar maturidade, consolidar no melhor ponto de partida, e definir como package canônico.
+
+- **Database access** — candidatos em box00-monorepo, tokke e outros. A definir.
+- **MCP Foundations** — runtime para MCP servers. Spec madura, implementação a extrair.
+- **Browser Extension Foundations** — base para extensões Chrome.
+- **Telegram Mini App Foundations** — base para mini apps no Telegram.
+- **CLI00** — framework plug-and-play para CLIs. Conceito definido, implementação a extrair.
+- **Auth service** — múltiplos mecanismos existentes. Avaliar e consolidar o melhor.
+
+### Em desenvolvimento / POC
+- **POC-astro00** — elimina dependência do Astro framework. WASM compiler + Bun nativo.
+- **eco00-event-system** — barramento de eventos. Base para toda a arquitetura de serviços.
 
 ---
 
-## Produtos Existentes e Alinhamento
+## Produtos
 
-### Alinhados com a Plataforma
-- **brcitas** — monorepo Bun + Astro + MySQL. Stack canônico. Em desenvolvimento.
-- **POC-carteiro-service-2026** — referência de implementação de serviço simples. Não é referência para packages ou features core — ainda imaturo para isso.
+### Em produção
+- **cliente-tokke-agendamentos** — sistema de agendamentos. Stack anterior à plataforma atual. Único produto de fato em produção além do carteiro.
+- **carteiro (box00-carteiro-service)** — serviço de email para formulários de contato de sites. Em produção. Candidato a migração para eco00 como subscriber de `carteiro.*` events.
 
-### Legado ou Desalinhados
-- **cliente-tokke-agendamentos** — stack anterior à plataforma atual. Decisão pendente: manter legado ou migrar.
-- **box00-monorepo** — primeira tentativa de plataforma. Cresceu desordenadamente. Referência histórica, não padrão atual.
-- **box00-carteiro-service** — versão anterior do carteiro. Substituído por POC-carteiro-service-2026.
+### Em desenvolvimento — prioridade 1
+- **brcitas** — monorepo Bun + Astro + MySQL. Stack canônico. Prioridade máxima.
+
+### Em desenvolvimento — prioridade 2
+- **bitbox00** (com Bruno) — escopo definido, discovery preliminar do módulo inicial (subsistema de marketing).
+
+### POCs e referências — não são produtos
+- **POC-carteiro-service-2026** — tentativa de modernização do carteiro. Status incerto.
+- Demais POCs — experimentos e provas de conceito, não produtos.
 
 ---
 
 ## O Problema de Duplicação
 
-Existem múltiplas versões de SSR, routing e foundations espalhadas pelos repositórios. Isso é resultado natural de evolução iterativa — não é um erro, é um estado de transição.
+Múltiplas versões de SSR, routing, auth e outros mecanismos fundamentais existem espalhadas pelos repositórios. Resultado natural de evolução iterativa.
 
-A plataforma está convergindo. O risco é entregar mais produtos antes da convergência, aumentando o custo de migração futura.
+A tarefa em andamento é: para cada categoria de package fundamental, identificar todos os candidatos, avaliar maturidade e funcionalidade, e consolidar no package canônico do ecossistema.
 
 **Decisão estratégica recorrente:** quando um cliente precisa de um produto agora, usar stack canônico mesmo que mais lento, ou usar stack legado e aceitar retrabalho futuro?
 
 ---
 
-## Estado Atual da Plataforma
+## O que não existe ainda
 
-### O que está consolidado
-- Stack canônico definido (Bun, TypeScript, MySQL, CSS Custom Props)
-- Convenções de filesystem (`~/box00/<tenantId>`)
-- Estrutura de monorepo
-- `@box00/ssr-foundations` (código completo, pronto para extração)
-- Biblioteca de UI (`app00ui-astro`)
-- Padrão de deployment (Docker unless-stopped + Caddy)
+Sendo honesto sobre o estado real:
 
-### O que está em transição
-- Eliminação da dependência do Astro framework (POC-astro00)
-- eco00-event-system como backbone de backend
-- Extração de packages canônicos (dd-validation-runtime, mcp-foundations)
-- Padronização de serviços internos (auth, sendmail, notifications)
+- Produto em produção com qualidade de plataforma: **nenhum ainda**
+- Monitoramento de servidores e alertas de downtime: **não existe**
+- Backup automatizado: **não existe**
+- Pipeline de CI/CD: **não existe** — responsabilidade manual do desenvolvedor hoje
+- Testes automatizados integrados a pipeline: **não existe**
+- CLI da plataforma (`box00`): **não implementado**
+- ORM/query builder canônico: **não definido**
+- Sistema de migrations canônico: **não definido**
+- Serviços internos (auth, sendmail, notifications): **não implementados**
+- Documentação pública da plataforma: **não existe**
 
-### O que ainda não existe formalmente
-- CLI da plataforma (`box00` CLI — referenciado em runbooks, não implementado)
-- ORM/query builder canônico
-- Sistema de migrations canônico
-- Serviços internos implementados (auth, sendmail, notifications)
-- Documentação pública da plataforma
+Há muito código de qualidade de produção. Produto em produção com plataforma madura: apenas tokke e carteiro, ambos em stack anterior.
 
 ---
 
 ## Perguntas para o Fundador
 
-Use estas perguntas como filtro para decisões estratégicas:
-
 - **Isso constrói a plataforma ou consome a plataforma?**
 - **Esse produto pode ser construído no stack canônico sem comprometer o prazo?**
 - **Estou aceitando retrabalho futuro de forma consciente ou por pressão?**
-- **Esse package existe em algum repositório de referência? Precisa ser extraído antes de ser usado?**
-- **Esse serviço deveria ser um serviço interno da plataforma ou é específico do produto?**
+- **Esse package tem candidatos nos repositórios de referência? Qual é o mais maduro?**
+- **Esse serviço deveria ser interno da plataforma via eco00 ou é específico do produto?**
 
 ---
 
 ## Próximas Decisões Estratégicas Pendentes
 
-- Quando eco00-event-system está maduro o suficiente para ser o padrão de backend?
-- Extrair `@box00/dd-validation-runtime` como repositório POC próprio?
-- Estabelecer política formal para produtos em stack legado (tokke)?
-- Quando POC-astro00 está maduro o suficiente para ser o padrão de SSR?
-- Quais serviços internos (auth, sendmail, notifications) implementar primeiro?
+- Consolidar package canônico de acesso a banco de dados (MySQL + SQLite)
+- Quando eco00-event-system está maduro para ser o padrão de backend?
+- Implementar monitoramento e backup antes de mais produtos?
+- Estabelecer CI/CD mínimo antes de continuar entregas?
+- Política formal para produtos em stack legado (tokke, carteiro)?
+- Quando POC-astro00 está maduro o suficiente para substituir Astro?
+- Quais packages canônicos extrair primeiro?
