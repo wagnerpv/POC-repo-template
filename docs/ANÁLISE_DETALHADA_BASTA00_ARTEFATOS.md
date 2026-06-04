@@ -1,432 +1,553 @@
 # Análise Detalhada de POC-basta00 - Artefatos de Código
 
 **Data:** 2026-06-04
-**Objetivo:** Catalogar todos os code artifacts candidatos para incorporação ao template
-**Foco:** RMs, database access, renderizadores, UI libraries, MCPs, extensões, APIs, pacotes, CLIs
-**Escopo:** Code artifacts apenas (não applications, não KB)
+**Repositório Analisado:** `POC-basta00` (IDP monorepo — Internal Developer Platform)
+**Objetivo:** Catalogar code artifacts reais e candidatos para incorporação ao template
+**Foco:** Code artifacts, packages, patterns — NÃO applications, NÃO knowledge base
 
 ---
 
-## 1. Architecture Decision Records (ADRs)
+## NOTA IMPORTANTE
 
-### Localização
-`/standards/adrs/`
-
-### Artefatos Identificados
-
-#### ADR-001: Bun over Node
-- **Status:** ✅ Crítico
-- **Descrição:** Decisão fundamental: Bun como runtime padrão
-- **Relevância:** Alinha com stack canônico
-- **Candidato para template:** SIM
-- **Ação:** Adaptar como ADR-001 do template
+Os diretórios `/packages/`, `/services/`, `/clis/`, `/mcps/`, `/integrations/` estão **vazios** (apenas `.gitkeep` e `README.md`). POC-basta00 é uma **plataforma scaffolded** — a estrutura é o artefato. O código real está em `wip/ssr-foundations/`.
 
 ---
 
-## 2. Conventions & Standards
+## 1. `@box00/ssr-foundations` — Pacote de SSR (CRÍTICO)
 
-### Localização
-`/standards/conventions/`
+**Localização:** `wip/ssr-foundations/`
+**Nome npm:** `@box00/ssr-foundations`
+**Versão:** `0.1.0`
+**Status:** WIP, pronto para extração como POC próprio
 
-### Artefatos Identificados
+### Descrição
+Framework SSR production-grade sobre Bun com filesystem routing, middleware pipeline e RBAC. Sem Astro em runtime. Sem Vite. Sem adapter. Bun nativo.
 
-#### Repository Structure Convention
-- **Status:** ✅ Importante
-- **Descrição:** Padrão de organização de monorepo
-- **Estrutura:**
-  - `/apps` — Aplicações deployáveis
-  - `/packages` — Bibliotecas compartilhadas
-  - `/services` — Daemons/workers
-  - `/mcps` — MCP servers
-  - `/integrations` — Adaptadores third-party
-  - `/standards` — Convenções e ADRs
-  - `/operations` — Planning e backlog
-  - `/onboarding` — Getting started
-  - `/academy` — Conhecimento geral
+### Stack de Dependências
+```json
+dependencies:
+  preact: ^10.19.0              ← UI rendering (renderToString)
+  preact-render-to-string: ^6.2.0
+  zod: ^3.22.0                  ← Validação de schemas
 
-#### Architecture Convention
-- **Status:** ✅ Importante
-- **Descrição:** Padrões de arquitetura para aplicações
-- **Candidato para template:** SIM
+devDependencies:
+  @types/bun: latest
+  @types/node: ^20.0.0
 
-#### Naming Convention
-- **Status:** ✅ Importante
-- **Descrição:** Convenções de nomeação
-- **Candidato para template:** SIM
+peerDependencies:
+  bun: >=1.0.0
+```
+
+### Estrutura de Código Real
+```
+wip/ssr-foundations/
+├── src/
+│   ├── index.ts                  ← Public API (entry point)
+│   ├── types.ts                  ← Todos os tipos públicos
+│   ├── server.ts                 ← startSsrServer() — bootstrap principal
+│   ├── astro/
+│   │   └── object.ts             ← buildAstroObject() — contexto por request
+│   ├── error/
+│   │   ├── defaults.ts           ← HTML defaults para 400/401/403/404/500
+│   │   └── pages.ts              ← renderErrorPage()
+│   ├── filesystem/
+│   │   ├── discovery.ts          ← discoverPrimitives() — filesystem walker
+│   │   ├── paths.ts              ← fileToRoutePath(), layouts, extensions
+│   │   └── validator.ts          ← validateFolderStructure()
+│   ├── http/
+│   │   └── dispatcher.ts         ← dispatchRequest() — GET/POST/PUT/DELETE
+│   ├── middleware/
+│   │   ├── pipeline.ts           ← executeMiddleware() — async pipeline
+│   │   └── rbac.ts               ← verifySessionAccess() — RBAC por route
+│   ├── rendering/
+│   │   ├── component.ts          ← renderComponent() via Preact
+│   │   ├── frontmatter.ts        ← parseStaticPage() — YAML subset parser
+│   │   ├── layout.ts             ← resolveLayout(), renderWithLayout()
+│   │   └── markdown.ts           ← Markdown renderer adapter (swappable)
+│   ├── routing/
+│   │   ├── parameters.ts         ← parseParamSegment(), [id], [...rest]
+│   │   ├── precedence.ts         ← compareRoutePrecedence()
+│   │   └── router.ts             ← matchRoute() — route matching com cache
+│   ├── specialists/
+│   │   ├── index.ts              ← loadSpecialists(), runSpecialistHooks()
+│   │   ├── logger/index.ts       ← Logger, ConsoleLogAdapter
+│   │   ├── session-manager/index.ts ← SessionManager, MemoryStoreAdapter
+│   │   └── validation/index.ts   ← Validator, ZodValidator
+│   └── utils/
+│       └── errors.ts             ← SsrError, BootError, RenderingError, etc.
+├── tests/
+│   ├── integration/
+│   │   └── full-request.test.ts
+│   └── unit/
+│       ├── astro.test.ts
+│       ├── error-pages.test.ts
+│       ├── filesystem.test.ts
+│       ├── frontmatter.test.ts
+│       ├── http.test.ts
+│       ├── middleware.test.ts
+│       ├── rbac.test.ts
+│       ├── routing.test.ts
+│       ├── specialists.test.ts
+│       └── types.test.ts
+├── examples/
+│   ├── blog-app/                 ← Exemplo real com boot.ts, middleware, layouts
+│   └── taskboard/                ← Exemplo completo com RBAC, auth, CRUD pages
+├── specs/                        ← Documentação técnica completa
+│   ├── SPEC.SSR-MONOLITHS-FOUNDATIONS-REFINED.md
+│   ├── SPECIALIST-CONTRACTS.md
+│   ├── IMPLEMENTATION-GUIDE.md
+│   ├── PRD.SSR-MONOLITHS-FOUNDATIONS-REFINED.md
+│   └── ELEVATOR-PITCH.md
+├── engineering-decisions.md      ← 20+ decisões de engenharia documentadas
+├── HANDOVER.md
+├── CHANGELOG.md
+└── package.json
+```
+
+### API Pública (src/index.ts)
+
+#### Entry Point Principal
+```typescript
+startSsrServer(opts: StartOptions): Promise<SsrServer>
+```
+
+#### Tipos Core
+```typescript
+Astro           // Contexto por request (params, session, logger, server)
+Session         // Interface de sessão (login, logout, regenerate)
+User / UserData // Usuário autenticado
+Logger          // debug/info/warn/error
+SsrServer       // Servidor (port, url, close())
+PageComponent   // Tipo de componente TSX
+HttpHandler     // Handler GET/POST/etc.
+MiddlewareOnRequest // Tipo de middleware
+ErrorPage       // Componente de error page
+Frontmatter     // Metadados YAML de páginas .md
+DiscoveryResult // Resultado do filesystem walker
+```
+
+#### Specialists (Injetados no Astro)
+```typescript
+// Logger
+createLogger(config?: LoggerConfig): Logger
+ConsoleLogAdapter                         // Implementação padrão
+
+// Session
+createSessionManager(config?): Promise<SessionManager>
+MemoryStoreAdapter                        // Implementação padrão (in-memory)
+
+// Validation
+createValidator(): Promise<Validator>
+ZodValidator                              // Implementação padrão
+```
+
+#### Lower-level utilities (exportadas para uso avançado)
+```typescript
+discoverPrimitives(appBaseFolder)         // Filesystem walker
+matchRoute(pathname, routes)              // Route matcher com cache
+buildAstroObject(...)                     // Contexto por request
+dispatchRequest(...)                      // HTTP dispatcher
+executeMiddleware(...)                    // Middleware pipeline
+verifySessionAccess(...)                  // RBAC check
+renderErrorPage(...)                      // Error page renderer
+```
+
+### Pipeline de Request
+```
+Bun.serve.fetch(request)
+  → buildAstroObject()          [session, logger, server injected]
+  → runSpecialistHooks()        [validator injected]
+  → executeMiddleware()         [app middleware.ts]
+    → staticAssets check        [public/ non-routable files]
+    → public router             [public/ routes, no RBAC]
+    → RBAC check                [verifySessionAccess]
+    → pages router              [pages/ routes, RBAC-protected]
+    → 404 error page            [fallback]
+  → finalizeResponse()          [Set-Cookie se necessário]
+```
+
+### Sistema de Filesystem Routing
+- **`public/`** — Rotas sem autenticação (`.tsx`, `.jsx`, `.md`, `.html`)
+- **`pages/`** — Rotas protegidas por RBAC
+- **`layouts/`** — Layouts reutilizáveis (TSX)
+- **`error-pages/`** — Páginas de erro customizadas (`403.tsx`, `404.tsx`, `500.tsx`)
+- **`middleware.ts`** — Middleware global (executado antes de todo request)
+- **`boot.ts`** — Bootstrap da aplicação (executado 1x na inicialização)
+- **Rotas dinâmicas:** `[id].tsx`, `[...rest].tsx` (rest params)
+- **Prioridade:** static > dynamic, `.tsx` > `.jsx` > `.md` > `.html`
+
+### Sistema de Sessão (SessionManager)
+```typescript
+interface SessionManager {
+  getOrCreate(request: Request): Promise<Session>
+  getPendingSetCookie(session: Session): string | null
+  shutdown?(): Promise<void>
+}
+
+interface Session {
+  id: string
+  user: User | null
+  roles: string[]
+  permissions: string[]
+  data: Record<string, any>
+  login(userData: UserData): Promise<void>
+  logout(): Promise<void>
+  regenerate(): Promise<void>
+}
+```
+- Cookie-based, HTTP-only, Secure por padrão
+- Regenera session ID no login (proteção contra session fixation)
+- Adapter pattern: `StoreAdapter` permite swap para Redis, SQL, etc.
+- Default: `MemoryStoreAdapter` (in-memory, para dev/sandbox)
+- Timeout: 24h padrão, configurável
+
+### RBAC
+```typescript
+// Em pages TSX:
+export const requiredPermissions = ['admin:read']
+export const requiredRoles = ['admin']
+
+// Em pages .md (frontmatter):
+---
+requiredPermissions: [admin:read]
+requiredRoles: [admin]
+---
+```
+- **`public/`** = sem RBAC (sempre acessível)
+- **`pages/`** = RBAC obrigatório via `verifySessionAccess()`
+- Roles e permissions verificadas por `AND` (todas devem estar presentes)
+
+### Sistema de Rendering
+- **TSX/JSX:** Preact `renderToString()` — SSR completo, sem hydration
+- **Markdown:** Renderer próprio in-house (subset: headings, bold, italic, links, code, lists, blockquotes). Adaptável via `setMarkdownRenderer()`
+- **HTML:** Servido como-is (GET only)
+- **Layouts:** TSX com `children` prop (Markdown injeta HTML como children)
+- **Frontmatter:** Parser YAML subset próprio (key: value, arrays, bool, number)
+
+### Decisões de Engenharia Documentadas
+`engineering-decisions.md` documenta 20+ decisões:
+- **ED-001:** Specialists in-tree (não pacotes externos) — extractáveis depois
+- **ED-003:** HTML files = static (sem frontmatter, GET only)
+- **ED-004:** Static assets = qualquer extensão não-routable em `public/`
+- **ED-005:** Markdown renderer in-house (subset, sem dependência externa)
+- **ED-006:** Frontmatter parser in-house (subset YAML)
+- **ED-007:** Built-in error pages — HTML mínimo, sem CSS externo
+
+### Scripts
+```bash
+bun run dev          # bun --watch src/index.ts
+bun run build        # build JS + declaration types
+bun run test         # bun test tests/**/*.test.ts
+bun run type-check   # sem emit, verifica types
+```
+
+### Candidatura para Template
+**Status:** ✅ CRÍTICO — Extrair como `POC-ssr-foundations`
+**Ação:** Criar repositório POC com este conteúdo integral
+**Complexidade:** Baixa — código está completo e testado
 
 ---
 
-## 3. Runbooks & Processes
+## 2. Architecture Decision Records (ADRs)
 
-### Localização
-`/standards/runbooks/`
-`/standards/processes/`
+**Localização:** `standards/adrs/`
+**Arquivos:** `ADR-001-bun-over-node.md`
 
-### Artefatos Identificados
+### ADR-001: Bun as Primary Runtime over Node.js
+**Status:** Accepted
 
-#### Deploy Production Runbook
-- **Status:** ✅ Operacional
-- **Descrição:** Procedimento de deployment
-- **Candidato para template:** SIM (adaptar para template)
+**Decisão:**
+- Bun como runtime E package manager principal
+- `bun install` obrigatório (lockfile: `bun.lockb`)
+- Usar built-ins do Bun: test runner, bundler, task runner
+- Node.js como fallback apenas para incompatibilidades
 
-#### PR Review Process
-- **Status:** ✅ Operacional
-- **Descrição:** Processo de revisão de PRs
-- **Candidato para template:** SIM
+**Razões documentadas:**
+- Performance: startup/execution significativamente mais rápido
+- All-in-one: elimina npm/pnpm + jest + esbuild separados
+- Agent-friendly: testes mais rápidos para AI agents
+- Simplicidade cognitiva para humanos e agentes
 
-#### Task Template & Management
-- **Status:** ✅ Operacional
-- **Descrição:** Template e process de tasks
-- **Candidato para template:** PARCIAL (adaptar)
+**Consequências:**
+- `bun.lockb` obrigatório no repo
+- Proibido `package-lock.json` ou `pnpm-lock.yaml`
+- Projetos Node-only devem ser marcados explicitamente
 
----
-
-## 4. Platform Packages
-
-### Localização
-`/packages/`
-
-### Artefatos Identificados
-
-**Necessário:** Explorar diretório `/packages/` em detalhe
-
-Candidatos esperados:
-- [ ] Data dictionary package
-- [ ] Validation runtime
-- [ ] CLI framework
-- [ ] HTTP server package
-- [ ] Router engine
-- [ ] Session management
-- [ ] Environment management
-- [ ] CRUD abstractions
-- [ ] ORM/Database helpers
+**Candidatura:** ✅ SIM — adaptar diretamente para template
 
 ---
 
-## 5. MCPs (Model Context Protocol Servers)
+## 3. Repository Structure Convention
 
-### Localização
-`/mcps/`
+**Localização:** `standards/conventions/repository-structure.md`
 
-### Artefatos Identificados
+### Diretórios Canônicos Definidos
+```
+apps/           → End-user applications e public services
+packages/       → Shared libraries, utilities, internal engines
+mcps/           → Model Context Protocol servers
+services/       → Internal microservices e backend logic
+clis/           → Command-line tools e orchestration scripts
+standards/      → Regras de engenharia (ADRs, conventions, processes)
+academy/        → Material educacional e engineering knowledge
+operations/     → Task management (current/, backlog/, ended/)
+incoming-original/ → Staging area para artefatos não validados
+```
 
-**Necessário:** Explorar diretório `/mcps/` em detalhe
+### Regras Definidas
+1. **`.gitkeep` Rule:** Todo diretório canônico DEVE ter `.gitkeep` (preserva estrutura mesmo vazio)
+2. **Nesting Limits:** Evitar nesting redundante
+3. **README Requirements:** Todo top-level dir DEVE ter `README.md` com: bird's eye view, purpose, local rules
 
-Candidatos esperados:
-- [ ] Browser automation MCP
-- [ ] Color palette MCP
-- [ ] Playbook/documentation MCP
-- Outros MCPs especializados
-
-**Relevância:** Integrações com agentes AI (Claude, etc)
-
----
-
-## 6. Integrations (Third-Party Adapters)
-
-### Localização
-`/integrations/`
-
-### Artefatos Identificados
-
-**Necessário:** Explorar diretório `/integrations/` em detalhe
-
-Candidatos esperados:
-- [ ] Email service adapters
-- [ ] Payment gateway adapters
-- [ ] Storage adapters (S3, etc)
-- [ ] DNS adapters
-- [ ] Hosting adapters
-- Outros adapters especializados
-
-**Relevância:** Padrão de abstração para serviços externos
+**Candidatura:** ✅ SIM — adotar como estrutura canônica do template
 
 ---
 
-## 7. CLI Tools (Command-Line Interfaces)
+## 4. Architecture Convention
 
-### Localização
-`/clis/`
+**Localização:** `standards/conventions/architecture.md`
 
-### Artefatos Identificados
+### Princípios Core ("The Grill")
+1. **Packages are General:** Tudo em `packages/` DEVE ser general-purpose e reutilizável
+2. **MCPs are Implementation:** MCPs consomem packages — são adapters/thin wrappers
+3. **Zero Specificity:** Um package NUNCA deve conhecer o consumidor (MCP, app, CLI)
 
-**Necessário:** Explorar diretório `/clis/` em detalhe
+**Exemplo:** Um `color-palette` package deve funcionar em CLI, web app ou MCP sem modificação.
 
-Candidatos esperados:
-- [ ] Box00 CLI (main development tool)
-- [ ] Project scaffolding CLI
-- [ ] Database migration CLI
-- [ ] Deployment CLI
-- Outros CLIs especializados
-
-**Relevância:** Developer experience, automation
+**Candidatura:** ✅ SIM — princípio fundamental para template
 
 ---
 
-## 8. Services (Backend Daemons/Workers)
+## 5. Naming Convention
 
-### Localização
-`/services/`
+**Localização:** `standards/conventions/README.md` + convenções nos arquivos de código
 
-### Artefatos Identificados
+### Padrões Observados
+- **Files:** `kebab-case.ts` (e.g. `session-manager/index.ts`)
+- **Exports:** `camelCase` para funções, `PascalCase` para classes/interfaces
+- **Packages:** `@box00/nome-do-pacote`
+- **Environments:** `<tenantId>-<envId>` (e.g. `tokke-production`)
+- **Databases:** `<tenantId>_<envId>` (e.g. `tokke_production`)
+- **Containers:** `<tenantId>-<envId>` (e.g. `tokke-production`)
+- **ADRs:** `ADR-NNN-descricao-kebab.md`
 
-**Necessário:** Explorar diretório `/services/` em detalhe
-
-Candidatos esperados:
-- [ ] Job queue service
-- [ ] Background worker service
-- [ ] Cache service
-- [ ] Message broker service
-- Outros serviços especializados
-
----
-
-## 9. Database Access & ORMs
-
-### Localização
-`/packages/` (presumido)
-`/incoming-original/` (material legado)
-
-### Artefatos Identificados
-
-**A encontrar:**
-- [ ] Database connection patterns
-- [ ] ORM/Query builder abstractions
-- [ ] Migration system
-- [ ] Schema management
-- [ ] Transaction handling
-- [ ] Connection pooling patterns
-
-**Stack esperado:**
-- MySQL driver integration
-- SQLite fallback patterns
-- Transaction abstractions
-- Query builders (Knex, Drizzle, etc)
+**Candidatura:** ✅ SIM — adotar convenções de naming
 
 ---
 
-## 10. Renderizadores (SSR, HTML, etc)
+## 6. PR Review Process
 
-### Localização
-`/wip/ssr-foundations/` (em POC-basta00)
-`/packages/` (presumido)
+**Localização:** `standards/processes/pr-review.md`
 
-### Artefatos Identificados
+### Critérios de "Production Grade"
+1. ❌ Nenhum `DIAGNOSTIC.md` ativo (issues resolvidos)
+2. ✅ Estrutura canônica (follow directory layouts)
+3. 🇬🇧 Code e docs em inglês
+4. ✅ Test coverage completo e passando em CI
+5. ✅ Docs em `docs/` presentes e claros
 
-#### SSR-Foundations (CRÍTICO)
-- **Localização:** `wip/ssr-foundations/`
-- **Status:** ✅ Muito importante
-- **Componentes:**
-  - [ ] Astro SSR patterns
-  - [ ] Route rendering
-  - [ ] Template compilation
-  - [ ] Middleware patterns
-  - [ ] Session integration
-  - [ ] Request/Response handling
+### Responsabilidades do Reviewer
+- Gatekeeper final contra código não-confiável
+- Rejeitar com referência específica ao standard violado
 
-**Candidato para POC-ssr-foundations:** SIM
-
-#### Renderer Packages
-- [ ] HTML renderer
-- [ ] Template renderer
-- [ ] Component renderer
-- [ ] Markdown/static renderer
+**Candidatura:** ✅ SIM — adotar como processo de PR do template
 
 ---
 
-## 11. UI Libraries & Components
+## 7. Task Template
 
-### Localização
-`/packages/` (presumido)
-`/apps/` (se houver componentes reutilizáveis)
+**Localização:** `standards/processes/task-template.md`
 
-### Artefatos Identificados
+```markdown
+# Task: [Nome]
 
-**A encontrar:**
-- [ ] Base component library
-- [ ] Design system
-- [ ] UI kit
-- [ ] Form components
-- [ ] Data table components
-- [ ] Navigation components
-- [ ] Modal/dialog components
-- [ ] Notification components
+## Status
+- State: Not Started / In Progress / Blocked / Completed
+- Owner: [Name]
 
-**Tecnologias esperadas:**
-- Astro components
-- Web components
-- TypeScript interfaces para componentes
+## Objective
+[Uma a duas frases]
 
----
+## Deliverables / Acceptance Criteria
+- [ ] Critério 1
+- [ ] Critério 2
 
-## 12. Especificações & Specs
+## Checklist
+- [ ] Sub-task 1
 
-### Localização
-`/docs/specs/`
-`/incoming-original/`
+## Notes / Context
+[Contexto adicional]
+```
 
-### Artefatos Identificados
-
-#### SSR Rendering Architecture Spec
-- **Localização:** `docs/specs/ssr-rendering-architecture.md`
-- **Status:** ✅ Importante
-- **Relevância:** Documentação de padrões SSR
-
-#### Outras specs
-- [ ] API specs
-- [ ] Data model specs
-- [ ] Architecture specs
-- [ ] Feature specs
+**Candidatura:** ✅ SIM — adotar como template de task padrão
 
 ---
 
-## 13. Incoming Original (Artifact Inbox)
+## 8. Runbook: Deploy Production
 
-### Localização
-`/incoming-original/`
+**Localização:** `standards/runbooks/deploy-production.md`
 
-### Padrão Encontrado
-- **Descrição:** Diretório para artefatos brutos/não validados
-- **Processo:** Validar e promover para produção
-- **Candidato para template:** SIM (padrão interessante)
+### Conceito: `install.yaml`
+Source of Operational Truth declarativo — descreve runtime, dependências, env config.
 
-### Artefatos Neste Diretório
-- [ ] Raw code artifacts
-- [ ] Experimental implementations
-- [ ] Legacy code
-- [ ] Backup artifacts
+### Identification de Ambiente
+`<tenantId>-<envId>` (e.g. `tokke-production`)
 
-**Necessário:** Análise detalhada do conteúdo
+### Regras Operacionais
+1. **Fixed Versions:** Runtime e containers com versões fixas (nunca ranges)
+2. **Container Isolation:** Comandos Bun DENTRO do container, nunca no host
+3. **Container Naming:** App: `<tenantId>-<envId>`, DB: `<database>-<version>-<envId>`
+4. **Data Persistence:** `~/box00/<envId>/...`
 
----
+### CLI box00 (referenciado, não implementado aqui)
+```bash
+box00 setup    # Lê install.yaml → gera compose.yaml
+box00 up       # Docker Compose up
+box00 down     # Docker Compose down (sem deletar volumes)
+```
 
-## 14. Skill System (Agent Directives)
-
-### Localização
-`/.agent/`
-`/skills/`
-
-### Artefatos Identificados
-
-#### Agent Skills (Matt Pocock)
-- **Localização:** `/skills/matt-pocock/`
-- **Artefatos:**
-  - [ ] TDD skill
-  - [ ] Caveman coding skill
-  - [ ] Grill sessions skills
-  - Outros skills
-
-**Relevância:** AI agent instruction patterns
+**Candidatura:** ✅ PARCIAL — conceito de `install.yaml` e naming conventions são valiosos. CLI `box00` não existe ainda como artefato neste repo.
 
 ---
 
-## 15. Documentation Patterns
+## 9. Handover Validation Process
 
-### Localização
-`/docs/`
-`/onboarding/`
-`/academy/`
+**Localização:** `standards/processes/handover-validation.md`
 
-### Artefatos Identificados
+### Padrão `incoming-original/`
+- Staging area para artefatos brutos/não validados
+- Processo: receber → validar → promover para canonical location
+- Evita promoção direta de código não auditado
 
-#### Onboarding Structure
-- **Localização:** `/onboarding/`
-- **Componentes:**
-  - README — Project overview
-  - Architecture guide
-  - Getting started guide
-  - Setup instructions
-
-#### Academy Content
-- **Localização:** `/academy/`
-- **Conteúdo:**
-  - Agentic coding playbook
-  - General engineering knowledge
-  - Training materials
+**Candidatura:** ✅ SIM — padrão útil para gestão de artefatos externos
 
 ---
 
-## 16. Operations & Task Management
+## 10. Exemplos de Aplicação (dentro de ssr-foundations)
 
-### Localização
-`/operations/`
+**Localização:** `wip/ssr-foundations/examples/`
 
-### Padrão de Task Structure
-- **Current tasks:** `/operations/current/`
-- **Ended tasks:** `/operations/ended/`
-- **Backlog tasks:** `/operations/backlog/`
+### Blog App
+```
+examples/blog-app/
+├── boot.ts                 ← DB connection ou setup inicial
+├── middleware.ts           ← Auth check global
+├── index.ts                ← startSsrServer({ appBaseFolder })
+├── layouts/base.tsx        ← Layout HTML base
+├── pages/
+│   ├── admin.tsx           ← Rota protegida RBAC
+│   └── dashboard.tsx       ← Dashboard autenticado
+├── public/
+│   ├── index.tsx           ← Home pública
+│   ├── login.tsx           ← Login page
+│   └── blog/
+│       ├── index.tsx       ← Lista de posts
+│       └── hello-world.md  ← Post em Markdown com frontmatter
+└── error-pages/
+    ├── 403.tsx
+    └── 404.tsx
+```
 
-**Candidato para template:** PARCIAL (adaptar)
+### Taskboard App (mais completo)
+```
+examples/taskboard/
+├── boot.ts
+├── middleware.ts
+├── index.ts
+├── layouts/base.tsx
+├── lib/
+│   ├── auth.ts             ← Helpers de autenticação
+│   ├── demo-data.ts        ← Dados de seed para demo
+│   └── rbac.ts             ← Helpers RBAC
+├── pages/
+│   ├── admin/
+│   │   ├── index.tsx       ← Admin dashboard
+│   │   └── users.tsx       ← Gestão de usuários
+│   ├── tasks/
+│   │   ├── index.tsx       ← Lista de tasks
+│   │   ├── [id].tsx        ← Detalhe de task (rota dinâmica)
+│   │   └── [id]/delete.tsx ← Delete de task
+│   └── dashboard.tsx
+├── public/
+│   ├── index.tsx
+│   └── login.tsx
+├── error-pages/
+│   ├── 403.tsx
+│   ├── 404.tsx
+│   └── 500.tsx
+└── tests/
+    └── e2e.test.ts.txt     ← Testes E2E (draft)
+```
+
+**Candidatura:** ✅ CRÍTICO — exemplos reais de uso do `@box00/ssr-foundations`
 
 ---
 
-## Matriz de Candidatos
+## 11. Especificações Técnicas (dentro de ssr-foundations)
 
-| # | Artefato | Tipo | Importância | Status | Candidato |
-|---|----------|------|------------|--------|-----------|
-| 1 | ADR-001: Bun over Node | Decision | 🔴 Crítico | Analisado | ✅ SIM |
-| 2 | Repository Structure Conv | Standard | 🔴 Crítico | Analisado | ✅ SIM |
-| 3 | Architecture Convention | Standard | 🔴 Crítico | Analisado | ✅ SIM |
-| 4 | Naming Convention | Standard | 🟡 Importante | Analisado | ✅ SIM |
-| 5 | Deploy Runbook | Process | 🟡 Importante | Analisado | ✅ SIM |
-| 6 | PR Review Process | Process | 🟡 Importante | Analisado | ✅ SIM |
-| 7 | Task Management | Process | 🟡 Importante | Analisado | ✅ PARCIAL |
-| 8 | SSR-Foundations | Code | 🔴 Crítico | Pendente | ✅ POC |
-| 9 | Database Patterns | Code | 🟡 Importante | Pendente | ✅ SIM |
-| 10 | MCP Servers | Code | 🟡 Importante | Pendente | ✅ SIM |
-| 11 | CLI Tools | Code | 🟡 Importante | Pendente | ✅ SIM |
-| 12 | Integration Adapters | Code | 🟡 Importante | Pendente | ✅ SIM |
-| 13 | UI Libraries | Code | 🟡 Importante | Pendente | ✅ SIM |
-| 14 | Incoming Artifact Inbox | Pattern | 🟡 Importante | Analisado | ✅ SIM |
-| 15 | Agent Skills | Code | 🔵 Futuro | Pendente | ⏳ TALVEZ |
-| 16 | Onboarding Structure | Doc | 🟡 Importante | Analisado | ✅ PARCIAL |
+**Localização:** `wip/ssr-foundations/specs/`
+
+| Arquivo | Conteúdo |
+|---------|----------|
+| `SPEC.SSR-MONOLITHS-FOUNDATIONS-REFINED.md` | Spec completa do framework |
+| `SPECIALIST-CONTRACTS.md` | Contratos de interface dos specialists |
+| `IMPLEMENTATION-GUIDE.SSR-MONOLITHS-FOUNDATIONS-REFINED.md` | Guia de implementação |
+| `PRD.SSR-MONOLITHS-FOUNDATIONS-REFINED.md` | Product Requirements Document |
+| `ELEVATOR-PITCH.md` | Visão executiva do produto |
+| `FINAL-CHANGES-SUMMARY.md` | Resumo de mudanças finais |
+| `README-HANDOFF.md` | Handoff document |
+
+**Candidatura:** ✅ SIM — templates de spec/PRD/handoff reutilizáveis
+
+---
+
+## Matriz de Candidatos Final
+
+| # | Artefato | Tipo | Localização Real | Importância | Ação |
+|---|----------|------|-----------------|-------------|------|
+| 1 | `@box00/ssr-foundations` | Package (framework SSR) | `wip/ssr-foundations/src/` | 🔴 Crítico | Criar POC-ssr-foundations |
+| 2 | Exemplos taskboard + blog | Code examples | `wip/ssr-foundations/examples/` | 🔴 Crítico | Incluir no POC |
+| 3 | Specs técnicas completas | Documentation | `wip/ssr-foundations/specs/` | 🔴 Crítico | Incluir no POC |
+| 4 | Engineering decisions (20+) | Documentation | `wip/ssr-foundations/engineering-decisions.md` | 🔴 Crítico | Incluir no POC |
+| 5 | ADR-001: Bun over Node | ADR | `standards/adrs/ADR-001-bun-over-node.md` | 🔴 Crítico | Adaptar para template |
+| 6 | Repository Structure Convention | Standard | `standards/conventions/repository-structure.md` | 🔴 Crítico | Adotar no template |
+| 7 | Architecture Convention | Standard | `standards/conventions/architecture.md` | 🔴 Crítico | Adotar no template |
+| 8 | PR Review Process | Process | `standards/processes/pr-review.md` | 🟡 Importante | Adaptar para template |
+| 9 | Task Template | Process | `standards/processes/task-template.md` | 🟡 Importante | Adotar no template |
+| 10 | Deploy Runbook + `install.yaml` concept | Runbook | `standards/runbooks/deploy-production.md` | 🟡 Importante | Adotar conceito |
+| 11 | Naming Conventions | Convention | (observado no código) | 🟡 Importante | Documentar no template |
+| 12 | Incoming-original pattern | Pattern | `incoming-original/` | 🟡 Importante | Avaliar adoção |
+| 13 | `.gitkeep` rule | Convention | `standards/conventions/` | 🟢 Baixo | Adotar no template |
+| 14 | SessionManager (MemoryStore + cookie) | Code | `src/specialists/session-manager/` | 🔴 Crítico | Parte do POC |
+| 15 | RBAC middleware | Code | `src/middleware/rbac.ts` | 🔴 Crítico | Parte do POC |
+| 16 | Filesystem router | Code | `src/routing/` | 🔴 Crítico | Parte do POC |
+| 17 | Markdown renderer (swappable) | Code | `src/rendering/markdown.ts` | 🟡 Importante | Parte do POC |
+| 18 | Frontmatter YAML parser | Code | `src/rendering/frontmatter.ts` | 🟡 Importante | Parte do POC |
+| 19 | Error pages system | Code | `src/error/` | 🟡 Importante | Parte do POC |
+| 20 | Specialist plugin system | Code | `src/specialists/` | 🟡 Importante | Parte do POC |
+
+---
+
+## O que NÃO existe (ainda) em POC-basta00
+
+- ❌ Nenhum package em `/packages/` (vazio)
+- ❌ Nenhum service em `/services/` (vazio)
+- ❌ Nenhum CLI em `/clis/` (vazio — `box00 CLI` mencionado no runbook mas não implementado aqui)
+- ❌ Nenhum MCP em `/mcps/` (vazio)
+- ❌ Nenhuma integration em `/integrations/` (vazio)
+- ❌ Sem ORM/database access pattern (não existe neste repo)
+- ❌ Sem MySQL driver ou connection pool
+- ❌ Sem UI library ou componentes visuais
 
 ---
 
 ## Próximas Ações
 
-### Phase 1 (Exploração Direta)
-- [ ] Explorar `/packages/` — catálogo completo
-- [ ] Explorar `/services/` — lista de serviços
-- [ ] Explorar `/clis/` — lista de CLIs
-- [ ] Explorar `/mcps/` — lista de MCPs
-- [ ] Explorar `/integrations/` — lista de adapters
-
-### Phase 2 (Análise Detalhada)
-- [ ] Deep dive em cada package
-- [ ] Análise de padrões de código
-- [ ] Documentação de interfaces
-- [ ] Identificação de dependências
-
-### Phase 3 (Consolidação)
-- [ ] Categorizar por tipo de artefato
-- [ ] Priorizar por valor
-- [ ] Planejar incorporação ao template
-- [ ] Criar guias de adaptação
-
----
-
-## Notas Importantes
-
-- POC-basta00 é um **IDP (Internal Developer Platform)** — mais maduro que um POC
-- Padrão de `incoming-original/` é interessante e poderia ser adotado
-- `/standards/` é excelente referência para documentação
-- `wip/ssr-foundations/` contém código valioso — merece ser POC próprio
-- Muita documentação consolidada — usar como referência
-
----
-
-## Checklist de Reconhecimento
-
-- [x] Revisão inicial de estrutura
-- [x] Identificação de ADRs
-- [x] Mapeamento de conventions
-- [x] Catalogação de runbooks
-- [ ] Exploração completa de `/packages/`
-- [ ] Exploração completa de `/services/`
-- [ ] Exploração completa de `/clis/`
-- [ ] Exploração completa de `/mcps/`
-- [ ] Exploração completa de `/integrations/`
-- [ ] Análise detalhada de padrões de código
-- [ ] Consolidação e priorização final
-
+1. ✅ Criar `POC-ssr-foundations` a partir de `wip/ssr-foundations/` (prioridade máxima)
+2. ✅ Incorporar ADR-001 ao template (adaptar para BOX00)
+3. ✅ Adotar repository structure convention como padrão do template
+4. ✅ Adotar architecture convention (packages general, MCPs específicos)
+5. ✅ Adotar task template e PR review process
+6. ⏳ Analisar POC-app00ui-astro (UI components)
+7. ⏳ Analisar POC-carteiro-service-2026 (service patterns)
+8. ⏳ Confirmar backup-edge40 para análise futura
