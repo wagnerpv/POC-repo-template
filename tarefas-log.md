@@ -87,3 +87,10 @@
 
 - `mapa-executivo.md` criado na raiz do repositório
 - Documento estratégico de alto nível para o fundador: stack canônico, packages, produtos, convenções, estado da plataforma, perguntas de decisão, duplicações identificadas
+
+## 2026-06-04T23:59-03:00
+
+- `CLAUDE.md` criado com regras obrigatórias do agente (leitura obrigatória, git workflow, stack canônico, papel do agente)
+- `tarefas-retomada.md` atualizado com resumo final da sessão e instruções de retomada
+- `tarefas-log.md` atualizado (esta entrada)
+- Sessão 2026-06-04 encerrada — 18 PRs mergeados, reconhecimento completo, mapa executivo em main
