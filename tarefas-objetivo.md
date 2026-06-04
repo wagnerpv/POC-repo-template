@@ -1,23 +1,141 @@
-# Objetivo da Sessão
+# Objetivo da Sessão - Aprimoramento do Monorepo Template
 
 ## Contexto
-Aprimorar o `agente-monorepo-template` existente incorporando artefatos, configurações e melhorias ainda não integradas aos padrões do template base.
 
-## Motivação
-O repositório `POC-astro00` representa a implementação mais madura e consolidada dos padrões de monorepo com Bun + Astro + TypeScript. Suas estruturas, configurações, decisões de engenharia e artefatos servem como referência para elevar o template a um novo patamar de maturidade.
+O `agente-monorepo-template` é a base para novos projetos monorepo. Atualmente é minimalista. Objetivo: evoluir para um artefato robusto incorporando padrões, configurações e estruturas validadas em produção.
 
-## Objetivo Principal
-Tornaro `agente-monorepo-template` um artefato de referência robusto que incorpore:
-- Estrutura de workspace otimizada (monorepo patterns)
-- Configurações de build, test e deployment consolidadas
-- Decisões de arquitetura validadas em produção
-- Documentação técnica completa e exemplos práticos
-- Padrões de desenvolvimento (TDD, CI/CD, versionamento)
+---
 
-## Resultado Esperado
-Um template pronto para produção que novos projetos possam clonar e usar como base, com todos os aprendizados de `POC-astro00` já incorporados.
+## Stack Canônico Definido
 
-## Repositórios Envolvidos
-- **Repositório de Trabalho:** `agente-monorepo-template` (será melhorado)
-- **Referência Principal:** `POC-astro00` (mais maduro, fornece padrões)
-- **Referência Secundária:** Outros POCs conforme necessário
+### Tecnologias Principais
+- **Runtime:** Bun (98% dos projetos)
+- **Frontend:** Astro (em transição para POC-astro00, eliminando dependência gradual)
+- **Linguagem:** TypeScript (strict mode)
+- **Banco de Dados:** MySQL (canônico) + SQLite (apenas exceções/sandbox)
+- **HTTP Client:** Bun.fetch (nativo)
+
+### O que NÃO é padrão
+- ❌ Hono (legado ou experimento isolado)
+- ❌ Astro framework em runtime (sendo eliminado)
+- ❌ Node.js (legado)
+- ❌ Frameworks legado (Angular, Vue, etc)
+
+---
+
+## Escopo da Sessão
+
+### O QUE FAZER ✅
+
+**Fase de Reconhecimento:**
+- Explorar repositórios de referência
+- Mapear artefatos de código reutilizáveis
+- Documentar padrões consolidados
+- Identificar estruturas de plataforma
+- Catalogar packages reutilizáveis
+- Descobrir configurações-padrão
+
+**Fase de Planejamento:**
+- Consolidar achados
+- Organizar por categoria de artefato
+- Criar planos de implementação cirúrgicos
+
+**Fase de Implementação:**
+- Implementar melhorias conforme prioridade
+- Validar com testes
+- Documentar decisões
+
+### O QUE NÃO FAZER ❌
+
+- ❌ Analisar applications específicas (não interessa)
+- ❌ Incorporar knowledge bases (por enquanto)
+- ❌ Implementar mudanças sem planejamento prévio
+- ❌ Mexer em main sem PR
+- ❌ Commits sem documentação clara
+
+---
+
+## Repositórios de Referência (FINAL)
+
+| # | Repositório | Tipo | Status | Utilidade |
+|---|---|---|---|---|
+| 1 | POC-app00ui-astro | POC | A analisar | UI components reutilizáveis com Astro |
+| 2 | POC-astro00 | POC | Analisado ✓ | SSR com Astro compiler + Bun (principal) |
+| 3 | POC-basta00 | IDP/Plataforma | Analisando | Padrões de monorepo, packages, plataforma |
+| 4 | POC-carteiro-service-2026 | POC | A analisar | Serviço especializado (emails/formulários) |
+| 5 | POC-ssr-foundations | POC | A criar | Extraído de wip/ssr-foundations em POC-basta00 |
+| 6 | box00-monorepo | Plataforma | Analisado ✓ | Primeira tentativa de plataforma (refatoração em curso) |
+| 7 | brcitas | Projeto | Analisado ✓ | Monorepo full-stack (projeto, não produção) |
+| 8 | cliente-tokke-agendamentos | Produção | Analisado ✓ | Cliente com padrões consolidados |
+| - | backup-edge40 | Backup | Backlog | Futuro repositório de análise |
+
+---
+
+## Decisões de Engenharia
+
+### Estrutura Monorepo Padrão
+```
+/apps         → Aplicações deployáveis
+/packages     → Bibliotecas compartilhadas
+/services     → Daemons/workers backend
+/mcps         → Model Context Protocol servers (agentes AI)
+/docs         → Documentação centralizada
+/standards    → ADRs, runbooks, conventions
+/operations   → Planning, task tracking, backlog
+```
+
+### Análise em Andamento
+
+**POC-basta00 - Foco:**
+- ✅ Code artifacts (não applications)
+- ✅ Platform packages (estrutura reutilizável)
+- ✅ Padrões consolidados (standards/, ADRs)
+- ❌ Applications específicas
+- ❌ Knowledge bases
+
+**POC-ssr-foundations (a criar):**
+- Extrair de `wip/ssr-foundations/` em POC-basta00
+- Criar como novo repositório POC
+- Integrar como referência
+
+---
+
+## Dinâmica de Trabalho
+
+### Missão de Reconhecimento (ATUAL)
+1. Explorar repositórios
+2. Documentar artefatos
+3. Mapear padrões
+4. **NÃO implementar nada ainda**
+
+### Resultado Esperado do Reconhecimento
+- Inventário completo de artefatos
+- Categorização por tipo
+- Priorização clara
+- Planos cirúrgicos por categoria
+
+### Após Reconhecimento
+1. **Planejamento:** Organizar artefatos por categoria
+2. **Implementação:** Aplicar melhorias de forma disciplinada
+3. **Validação:** Testes passando, documentação clara
+
+---
+
+## Status da Sessão
+
+- ✅ Stack canônico documentado
+- ✅ Repositórios de referência finalizados
+- ✅ POC-basta00 em análise
+- ⏳ Criar POC-ssr-foundations (pending)
+- ⏳ Análise detalhada de artefatos (pending)
+- ⏳ Reconhecimento completo (pending)
+- ⏳ Planejamento de implementação (pending)
+
+---
+
+## Notas Importantes
+
+- **Padrão de nomes:** Será padronizado após reconhecimento
+- **Contexto é crítico:** Todas as decisões serão baseadas em análise profunda
+- **Cirurgicidade:** Implementações serão precisas, não especulativas
+- **Documentação:** Cada mudança será documentada explicando o quê, por quê, e como
