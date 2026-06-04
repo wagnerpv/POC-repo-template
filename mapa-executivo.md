@@ -163,6 +163,31 @@ Há muito código de qualidade de produção. Produto em produção com platafor
 
 ---
 
+
+## Objetivo Macro do Template
+
+O `agente-monorepo-template` é a fundação que vai permitir à BOX00 entrar em operação e migrar legados. Tudo que é construído no template deve ser validado contra estes consumidores reais.
+
+### Consumidores por Prioridade
+
+**Prioridade 1 — brcitas**
+Primeiro produto a entrar em operação. Define o template na prática.
+
+**Prioridade 2 — bitbox00**
+Segundo produto a entrar em operação. Valida o template como plataforma reutilizável.
+
+**Prioridade 3 — cliente-tokke-agendamentos**
+Migração do sistema em produção para o template padrão. O template tem que atender seus requisitos reais.
+
+**Prioridade 4 — carteiro**
+Migração para o template, descomissionando o repositório legado. O serviço assume produção no novo stack.
+
+### Implicações
+
+- O `box00-monorepo` tem funcionalidades únicas a trazer para o template antes de tokke migrar.
+- O template não pode ser genérico demais — precisa ser validado contra brcitas e tokke.
+
+---
 ## Próximas Decisões Estratégicas Pendentes
 
 - Consolidar package canônico de acesso a banco de dados (MySQL + SQLite)
