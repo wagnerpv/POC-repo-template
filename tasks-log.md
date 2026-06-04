@@ -59,3 +59,12 @@
 - `POC-app00ui-astro` clonado e analisado completamente
 - `docs/ANÁLISE_POC_APP00UI_ASTRO.md` criado com análise real do código
 - Repositórios pendentes de análise identificados
+
+## 2026-06-04T22:45-03:00
+
+- **CORREÇÃO:** tasks-log entrada 19:30 indicava `POC-carteiro-service-2026` como clonado — era incorreto, não estava em `~/repos`
+- `POC-carteiro-service-2026` clonado agora (versões v1, v2, v3, 008-com-firebird)
+- `POC-carteiro-service-2026` analisado completamente (v3 como referência)
+- `docs/ANÁLISE_POC_CARTEIRO_SERVICE_2026.md` criado
+- Artefatos candidatos: `db.ts` (JSON store standalone), `sendFormEmail.ts` (multi-provider), `queryParser.ts`, padrão routing via middleware.ts
+- Análise de `backup-edge40` ainda pendente (apenas tarefa criada, análise não executada)
