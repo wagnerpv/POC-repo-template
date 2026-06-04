@@ -94,3 +94,10 @@
 - `tarefas-retomada.md` atualizado com resumo final da sessão e instruções de retomada
 - `tarefas-log.md` atualizado (esta entrada)
 - Sessão 2026-06-04 encerrada — 18 PRs mergeados, reconhecimento completo, mapa executivo em main
+
+## 2026-06-05T00:10-03:00
+
+- Objetivo macro do template registrado: 4 consumidores em ordem de prioridade (brcitas, bitbox00, tokke, carteiro)
+- `tarefas-objetivo.md` atualizado com objetivo macro e implicações
+- `mapa-executivo.md` atualizado com seção de consumidores por prioridade
+- Clarificado: box00-monorepo tem funcionalidades únicas a trazer antes de tokke migrar

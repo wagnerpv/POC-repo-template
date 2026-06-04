@@ -139,3 +139,29 @@ O `agente-monorepo-template` é a base para novos projetos monorepo. Atualmente 
 - **Contexto é crítico:** Todas as decisões serão baseadas em análise profunda
 - **Cirurgicidade:** Implementações serão precisas, não especulativas
 - **Documentação:** Cada mudança será documentada explicando o quê, por quê, e como
+
+---
+
+## Objetivo Macro do Template
+
+O `agente-monorepo-template` não é um exercício técnico. É a fundação que vai permitir a BOX00 entrar em operação com seus produtos e migrar os legados existentes.
+
+### Ordem de Prioridade dos Consumidores
+
+**Prioridade 1 — brcitas**
+Primeiro produto a entrar em operação usando o template como base. Define o template na prática.
+
+**Prioridade 2 — bitbox00**
+Segundo produto a entrar em operação. Valida o template como plataforma reutilizável.
+
+**Prioridade 3 — cliente-tokke-agendamentos**
+Migração do sistema de agendamentos do stack legado para o template padrão. O template tem que ser capaz de atender os requisitos deste sistema em produção.
+
+**Prioridade 4 — carteiro**
+Migração do POC-carteiro-service-2026 para o template padrão. Ao concluir, o serviço assume produção descomissionando o box00-carteiro-service (legado).
+
+### Implicação para o Template
+
+O template não pode ser genérico demais. Ele precisa ser validado contra os requisitos reais desses quatro consumidores — especialmente brcitas (prioridade 1) e tokke (já em produção com requisitos conhecidos).
+
+O `box00-monorepo` contém funcionalidades únicas que precisam ser trazidas para o template antes que tokke possa migrar.
