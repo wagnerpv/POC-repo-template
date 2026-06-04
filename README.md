@@ -82,8 +82,6 @@ This repository now includes:
 
 - root `package.json` with `workspaces` for `apps/*` and `packages/*`
 - root `tsconfig.json`
-- sample workspace package at `apps/api`
-- sample shared package at `packages/shared`
 
 Initialize dependencies from the repo root:
 
