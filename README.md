@@ -73,3 +73,20 @@ bun install
 - Prefer ephemeral PATs for short-lived authenticated operations.
 - Do not persist the token in `.git-credentials`, shell profiles, or repo files unless there is an explicit requirement to do so.
 - Use `.local/` for machine-local artifacts that must stay out of version control.
+
+## Bun workspace bootstrap
+
+Bun workspaces are configured from the root `package.json` using the `workspaces` field. `bun init` scaffolds a single project and creates files like `package.json`, `README.md`, `tsconfig.json` or `jsconfig.json`, and an entrypoint; for a monorepo-style workspace, the root still needs an explicit workspace configuration.
+
+This repository now includes:
+
+- root `package.json` with `workspaces` for `apps/*` and `packages/*`
+- root `tsconfig.json`
+- sample workspace package at `apps/api`
+- sample shared package at `packages/shared`
+
+Initialize dependencies from the repo root:
+
+```bash
+bun install
+```
