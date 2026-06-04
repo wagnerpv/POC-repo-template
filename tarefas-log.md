@@ -74,3 +74,11 @@
 - Arquivos renomeados para padrão português com hífens (tasks-log.md → tarefas-log.md, docs/*.md)
 - `tarefas-retomada.md` criado com contexto completo para retomada em nova sessão
 - Inconsistência de idioma (tasks vs tarefas) corrigida em toda a documentação
+
+## 2026-06-04T23:30-03:00
+
+- `backup-edge40` analisado completamente (código TypeScript, não ZIPs/PDFs)
+- `docs/ANÁLISE-DETALHADA-BACKUP-EDGE40-ARTEFATOS.md` criado (363 linhas)
+- Artefatos críticos identificados: Filesystem Conventions (`~/box00/<env>`), `@box00/dd-validation-runtime`, `@box00/data-dictionary-v1`, MCP Foundations specs e convenção MCP00
+- `tarefas-retomada.md` atualizado com status de backup-edge40 e novas tarefas pendentes
+- Reconhecimento de TODOS os repositórios de referência concluído nesta sessão
