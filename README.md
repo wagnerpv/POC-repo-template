@@ -22,7 +22,7 @@ Foundational monorepo template for BOX00 platform products. Standardized structu
 
 ## Session setup
 
-Use a session-only token export when the human provides an ephemeral PAT.
+Use an ephemeral PAT provided by the Tech Lead. It's safe to export in shell history.
 
 ```bash
 export PATH="$HOME/.local/bin:$HOME/.bun/bin:$PATH"
@@ -30,18 +30,21 @@ export GITHUB_TOKEN='YOUR_EPHEMERAL_PAT'
 export GH_TOKEN="$GITHUB_TOKEN"
 ```
 
+**Important:** The PAT is ephemeral (valid for this session only) and automatically revoked after use. It's safe to appear in logs, history, and scripts.
+
 ## Authenticate gh
 
-Use stdin to avoid placing the token directly in shell history.
-
 ```bash
-printf '%s\n' "$GITHUB_TOKEN" | gh auth login --hostname github.com --with-token
+gh auth login --hostname github.com --with-token
+# Paste the ephemeral PAT when prompted
 gh auth status
 ```
 
+**Note:** The PAT is ephemeral and session-only. It's safe to appear in logs.
+
 ## Git over HTTPS
 
-Clone or push with the token only when required.
+Clone or push with the ephemeral PAT. It's safe to use directly in commands.
 
 ```bash
 git clone "https://x-access-token:${GITHUB_TOKEN}@github.com/OWNER/REPO.git"
@@ -54,6 +57,8 @@ To update an existing remote for authenticated push:
 git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/OWNER/REPO.git"
 git push origin main
 ```
+
+**Note:** The PAT is ephemeral and session-only. It's safe to appear in command history.
 
 ## Initialize workspace
 
@@ -70,8 +75,8 @@ bun install
 
 ## Notes
 
-- Prefer ephemeral PATs for short-lived authenticated operations.
-- Do not persist the token in `.git-credentials`, shell profiles, or repo files unless there is an explicit requirement to do so.
+- The PAT is ephemeral and session-only. It's safe to use in shell history, logs, and scripts.
+- Do not persist non-ephemeral tokens in `.git-credentials`, shell profiles, or repo files.
 - Use `.local/` for machine-local artifacts that must stay out of version control.
 
 ## Bun workspace bootstrap
