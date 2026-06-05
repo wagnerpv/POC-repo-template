@@ -1,0 +1,112 @@
+name: Create Dev Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment-id:
+        description: 'Environment ID (7 characters, e.g., a1b2c3d)'
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  create-dev-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate environment ID
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          if [[ ! $ENV_ID =~ ^[a-z0-9]{7}$ ]]; then
+            echo "❌ Invalid environment ID: $ENV_ID"
+            echo "Must be exactly 7 lowercase alphanumeric characters"
+            exit 1
+          fi
+          echo "✅ Valid environment ID: $ENV_ID"
+
+      - name: Check if environment already exists
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          
+          if [ -d "$ENV_PATH" ]; then
+            echo "❌ Environment dev-$ENV_ID already exists at $ENV_PATH"
+            exit 1
+          fi
+          echo "✅ Environment does not exist, safe to create"
+
+      - name: Create environment directory structure
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          
+          echo "📁 Creating environment at: $ENV_PATH"
+          
+          mkdir -p "$ENV_PATH/vendor"
+          mkdir -p "$ENV_PATH/apps"
+          mkdir -p "$ENV_PATH/sandbox"
+          
+          echo "✅ Directory structure created"
+
+      - name: Create environment config
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          ENV_FILE="$ENV_PATH/.env"
+          
+          cat > "$ENV_FILE" << EOF
+          # Dev Environment: dev-$ENV_ID
+          # Created: $(date -u +'%Y-%m-%dT%H:%M:%SZ')
+          
+          ENVIRONMENT_ID=dev-$ENV_ID
+          ENVIRONMENT_TYPE=development
+          HOME_DIR=$ENV_PATH
+          VENDOR_DIR=$ENV_PATH/vendor
+          APPS_DIR=$ENV_PATH/apps
+          SANDBOX_DIR=$ENV_PATH/sandbox
+          EOF
+          
+          echo "✅ Environment config created at $ENV_FILE"
+
+      - name: Create .gitkeep files
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          
+          touch "$ENV_PATH/vendor/.gitkeep"
+          touch "$ENV_PATH/apps/.gitkeep"
+          touch "$ENV_PATH/sandbox/.gitkeep"
+          
+          echo "✅ .gitkeep files created"
+
+      - name: Verify environment
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          
+          echo "📊 Environment verification:"
+          echo ""
+          echo "Environment ID: dev-$ENV_ID"
+          echo "Path: $ENV_PATH"
+          echo ""
+          echo "Directory structure:"
+          tree -L 2 "$ENV_PATH" 2>/dev/null || find "$ENV_PATH" -type f
+          echo ""
+          echo "✅ Environment dev-$ENV_ID created successfully"
+
+      - name: Output environment details
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          
+          echo "## Dev Environment Created"
+          echo ""
+          echo "**Environment ID:** dev-$ENV_ID"
+          echo "**Path:** $ENV_PATH"
+          echo "**Created:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          echo ""
+          echo "To destroy this environment, run:"
+          echo "\`\`\`"
+          echo "gh workflow run destroy-dev-env.yml -f environment-id=$ENV_ID"
+          echo "\`\`\`"
