@@ -107,3 +107,27 @@
 - `mapa-executivo.md` renomeado para `mapa-executivo-plataforma.md`
 - `mapa-executivo-produto.md` criado — template para mapas de produto específico
 - Referências atualizadas em CLAUDE.md e tarefas-retomada.md
+
+## 2026-06-05T14:45-03:00
+
+- **Operação: Framework Operacional Completo**
+- Clonado repositório com PAT
+- Lidos todos os 14 arquivos markdown existentes
+- Mapeada estrutura de documentos críticos e responsabilidades
+- Criados 5 novos documentos operacionais:
+  - `GUIA-OPERACIONAL.md` (11 KB): procedimento dia a dia, branch → PR → main
+  - `DASHBOARD-ARQUIVOS-CRITICOS.md` (9.4 KB): mapa de Tier 1/2/3, responsabilidades
+  - `MAPA-VISUAL.md` (16 KB): visualizações ASCII de fluxo e ciclo de docs
+  - `ONE-PAGE-REFERENCE.md` (6.6 KB): cartão de referência rápida
+  - `INDICE.md` (11 KB): central de navegação para toda documentação
+- Estabelecido fluxo operacional: feature-branch → PR → main (conforme Wagner confirmou)
+- Configurada identidade git local: `haiku-git-agent <wagnerpv@box00.com>`
+- Criada branch `feat/operational-framework`
+- Instalado `gh` CLI via apt
+- PR #23 criada e aberta: https://github.com/wagnerpv/eco00-monorepo-template/pull/23
+- PR mergeada por Wagner (commit `1645faa`)
+- Sincronizado main com `git pull --ff-only origin main`
+- Deletada branch local `feat/operational-framework`
+- Deletada branch remota `feat/operational-framework`
+- Executado `git fetch --all --prune` — **invariante mantido: local = remote**
+- **Status final:** Operação completa, documentação pronta para uso, fluxo operacional estabelecido

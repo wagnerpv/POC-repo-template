@@ -1,156 +1,186 @@
-# Retomada de Sessão — agente-monorepo-template
+# Tarefas — Retomada & Handover
 
-**Para o agente que vai retomar este trabalho:**
+**Para a próxima sessão do agente.**
+
 Você está começando uma sessão nova, sem memória da sessão anterior. Este documento contém tudo que você precisa saber para continuar de onde paramos.
 
 ---
 
-## Contexto do Projeto
+## 🎯 Status Atual (2026-06-05 pós-merge de PR #23)
 
-**Repositório de trabalho:** `WagnerPV/agente-monorepo-template`
-**Objetivo:** Aprimorar o template de monorepo incorporando artefatos, padrões e configurações validados em repositórios de referência.
+### ✅ Concluído Nesta Sessão
 
-**Fase atual:** Reconhecimento (análise dos repositórios de referência). Não implementar nada ainda — apenas explorar, documentar e catalogar.
+**Framework Operacional Completo:**
+- Criados 5 novos documentos (~2600 linhas)
+  - `GUIA-OPERACIONAL.md` — procedimento dia a dia
+  - `DASHBOARD-ARQUIVOS-CRITICOS.md` — mapa de documentação por Tier
+  - `MAPA-VISUAL.md` — visualizações ASCII
+  - `ONE-PAGE-REFERENCE.md` — cartão de referência rápida
+  - `INDICE.md` — central de navegação
+- Fluxo de trabalho estabelecido: **feature-branch → PR → main**
+- Documentação viva sincronizada
+- PR #23 mergeada com sucesso (commit `1645faa`)
+- Repositório sincronizado: `local = remote`
+
+### 🟢 Sistema Operacional
+
+Tudo pronto para desenvolvimento normal. **Não há bloqueadores.**
 
 ---
 
-## Stack Canônico (não negociável)
+## 📚 Como Iniciar Nova Sessão
+
+### 1. Leitura Obrigatória (Tier 1 — 25 min)
+
+Nesta ordem:
+```
+1. CLAUDE.md (5 min) — Regras do agente
+2. mapa-executivo-plataforma.md (10 min) — Visão estratégica
+3. tarefas-retomada.md (5 min) — Contexto da sessão anterior
+4. tarefas.md (5 min) — Tarefas atuais
+```
+
+### 2. Referência Rápida
+
+Abrir `INDICE.md` — central de navegação para todo o resto.
+
+### 3. Começar Desenvolvimento
+
+Seguir procedimento em `GUIA-OPERACIONAL.md` (seção "Procedimento Padrão de Sessão").
+
+---
+
+## 📋 Estado das Fases (tarefas.md)
+
+### ✅ Phase 1: Fundações (COMPLETA)
+- [x] Criar estrutura operacional
+- [x] Documentar fluxo de trabalho
+- [x] Central de navegação (INDICE.md)
+- [x] Checklist de decisões
+- [x] Referência rápida
+
+### 🔴 Phase 2: Backend (NÃO INICIADO)
+- [ ] Criar app de exemplo com Hono 4
+- [ ] Adicionar padrão de validação (Zod)
+- [ ] Exemplo de banco de dados
+
+### 🔴 Phase 3: DevOps (NÃO INICIADO)
+- [ ] Adicionar Docker configuration
+- [ ] Setup CI/CD workflows
+- [ ] Documentar deployment process
+
+### 🔴 Phase 4: Documentation (PARCIAL)
+- [x] Framework de documentação viva
+- [ ] ADRs (Architecture Decision Records)
+- [ ] API documentation pattern
+
+---
+
+## 🎯 Próximas Ações Imediatas
+
+1. **Usar `INDICE.md` como ponto de entrada** para toda documentação
+2. **Decidir:** Phase 2 (Backend) ou outra prioridade?
+3. **Revisar `DASHBOARD-ARQUIVOS-CRITICOS.md`** mensalmente (métricas de saúde)
+4. **Manter `ONE-PAGE-REFERENCE.md`** como cartão de bolso
+
+---
+
+## 📊 Documentos Críticos
+
+### Tier 1 (Leitura obrigatória)
+- `CLAUDE.md` — Regras do agente
+- `mapa-executivo-plataforma.md` — Visão estratégica
+- `tarefas-retomada.md` — Este arquivo
+- `tarefas.md` — Tarefas atuais
+
+### Tier 2 (Consultar conforme necessário)
+- `GUIA-OPERACIONAL.md` — Procedimento operacional
+- `tarefas-objetivo.md` — Objetivos da sprint
+- `README.md` — Setup inicial
+
+### Tier 3 (Referência)
+- `INDICE.md` — Navegação central
+- `DASHBOARD-ARQUIVOS-CRITICOS.md` — Mapa completo
+- `MAPA-VISUAL.md` — Visualizações
+- `ONE-PAGE-REFERENCE.md` — Cartão de bolso
+- `docs/GIT-WORKFLOW-VERIFICAÇÃO.md` — Verificações Git obrigatórias
+
+---
+
+## 🔄 Fluxo de Trabalho Confirmado
+
+**feature-branch → PR → main**
+
+(Não há branch `dev` intermediária — termo foi genérico do Wagner)
+
+### Checklist de Fim de Sessão (OBRIGATÓRIO)
+
+Sempre fazer ao final de cada sessão:
+
+```bash
+# 1. Criar branch: git checkout -b chore/seu-escopo
+# 2. Atualizar tarefas-log.md (append novo ## 2026-MM-DDTHH:MM-03:00)
+# 3. Atualizar tarefas-retomada.md (reescrever estado)
+# 4. Atualizar tarefas.md (marcar progresso)
+# 5. Submeter PR
+git add tarefas-log.md tarefas-retomada.md tarefas.md
+git commit -m "chore: update session logs"
+git push origin chore/seu-escopo
+gh pr create --base main --head chore/seu-escopo
+# 6. Esperar aprovação do Wagner
+```
+
+---
+
+## ✅ Stack Canônico (não negociável)
 
 - **Runtime:** Bun
-- **Frontend:** Astro (em transição — POC-astro00 visa eliminar dependência)
 - **Linguagem:** TypeScript strict
-- **Banco de Dados:** MySQL (canônico) + SQLite (apenas sandbox/exceções)
-- **HTTP Client:** Bun.fetch (nativo)
-- ❌ **NÃO usar:** Hono, Node.js, Angular, Vue, Tailwind JIT, CDN externo
+- **Frontend:** Astro (em transição para POC-astro00)
+- **Backend:** eco00-event-system (via barramento, não APIs diretas)
+- **Banco de Dados:** MySQL (produção) + SQLite (sandbox)
+- **Infra:** Docker + Caddy (sem PM2)
+- **HTTP Client:** Bun.fetch
+
+**Regra:** Antes de propor tech diferente, consultar `mapa-executivo-plataforma.md`
 
 ---
 
-## Repositórios Clonados em `~/repos`
+## 🔗 Links Importantes
 
-| Repositório | Tipo | Status de Análise |
-|-------------|------|-------------------|
-| `agente-monorepo-template` | Trabalho | — |
-| `agente-git-sandbox` | Referência operacional | — |
-| `POC-astro00` | Referência principal | ✅ Analisado |
-| `POC-basta00` | IDP/Plataforma | ✅ Analisado |
-| `POC-ssr-foundations` | POC (criado nesta sessão) | ✅ Criado |
-| `POC-app00ui-astro` | UI components | ✅ Analisado |
-| `POC-carteiro-service-2026` | Serviço email | ✅ Analisado |
-| `backup-edge40` | Backup (3341 arquivos) | ✅ Analisado |
-| `brcitas` | Projeto full-stack | ✅ Analisado |
-| `box00-monorepo` | Plataforma legado | ✅ Analisado |
-| `box00-carteiro-service` | Serviço email legado | ✅ Analisado |
-| `cliente-tokke-agendamentos` | Cliente produção | ✅ Analisado |
+| Recurso | Link |
+|---------|------|
+| **Navegação Central** | `INDICE.md` |
+| **Guia Operacional** | `GUIA-OPERACIONAL.md` |
+| **Referência Rápida** | `ONE-PAGE-REFERENCE.md` |
+| **Visão Estratégica** | `mapa-executivo-plataforma.md` |
+| **Histórico** | `tarefas-log.md` |
+| **Verificações Git** | `docs/GIT-WORKFLOW-VERIFICAÇÃO.md` |
 
 ---
 
-## Tarefas Pendentes (por prioridade)
+## 📝 Notas Operacionais
 
-### 1. ⏳ Analisar `backup-edge40` (PRIORITÁRIA)
-- Repositório com 3341 arquivos já clonado em `~/repos/backup-edge40`
-- Estrutura: `/agents`, `/wip`, `/zona`, `/scripts`, `/big.local`
-- Projetos identificados: DIVAGA, QQDB
-- Focar em: `.ts`, `.tsx`, `.astro`, `.md` com specs/decisões
-- Ignorar: PDFs, ZIPs, MP4/MP3, XLSX/DOCX, `/big.local`
-- Ver tarefa em: `docs/TAREFA-ANÁLISE-BACKUP-EDGE40.md`
-- Criar ao final: `docs/ANÁLISE-DETALHADA-BACKUP-EDGE40-ARTEFATOS.md`
-
-### 2. ⏳ Consolidar reconhecimento completo
-- Após analisar backup-edge40, consolidar todos os achados
-- Atualizar `docs/RECONHECIMENTO-EM-ANDAMENTO.md`
-- Criar plano de implementação por categoria de artefato
-
-### 3. ⏳ Criar `POC-ssr-foundations` com README e documentação adequada
-- Repositório já existe: `https://github.com/wagnerpv/POC-ssr-foundations`
-- Código extraído de `POC-basta00/wip/ssr-foundations/`
-- Falta: README próprio, atualizar referências de nome
+- **Invariante Git:** `local = remote` sempre (verificado após cada PR)
+- **Documentação viva:** tarefas-log (append-only), tarefas-retomada, tarefas
+- **Sem bloqueadores:** Sistema operacional completo
+- **Fluxo confirmado:** feature-branch → PR → main
+- **Central de navegação:** INDICE.md para qualquer dúvida
+- **IMPORTANTE:** Nunca commitar diretamente em main — sempre via branch + PR
 
 ---
 
-## Documentos de Referência (em `docs/`)
+## 🎓 Lembretes Críticos
 
-| Arquivo | Conteúdo |
-|---------|----------|
-| `ANÁLISE-DETALHADA-BASTA00-ARTEFATOS.md` | Análise completa de POC-basta00 (20 artefatos) |
-| `ANÁLISE-POC-APP00UI-ASTRO.md` | Análise de UI components (21 componentes Astro) |
-| `ANÁLISE-POC-CARTEIRO-SERVICE-2026.md` | Análise do carteiro v3 (db.ts, email, queryParser) |
-| `TAREFA-ANÁLISE-BACKUP-EDGE40.md` | Tarefa e escopo para análise de backup-edge40 |
-| `RECONHECIMENTO-EM-ANDAMENTO.md` | Status geral do reconhecimento |
-| `GIT-WORKFLOW-VERIFICAÇÃO.md` | Regras obrigatórias de verificação Git |
+- ❌ Nunca commitar direto em main
+- ✅ Sempre criar branch: `git checkout -b chore/seu-escopo`
+- ✅ Sempre PR com mensagem clara
+- ✅ Sempre aguardar aprovação antes de mergear
+- ✅ Sempre sincronizar e limpar branches após merge
+- ✅ Sempre atualizar tarefas-log ao FIM de sessão (via PR)
 
 ---
 
-## Regras de Trabalho
+**Status da Sessão 2026-06-05:** ✅ **Completa. Pronta para próxima operação.**
 
-### Git
-- Nunca commitar direto na `main`
-- Fluxo: `branch → commit → push → PR → TL aprova → sincronizar main`
-- Após aprovação do TL: `git pull main`, `git fetch --prune`, deletar branches locais órfãs
-- Verificar SEMPRE após: push, pr create, merge
-
-### Agente
-- Username Git: `haiku-git-agent`
-- Email: `wagnerpv@box00.com`
-- GIT_OWNER: `WagnerPV`
-- WORKSPACE_PATH: `~/repos`
-- PAT: solicitar ao TL no início da sessão
-
-### Documentação
-- `tarefas-log.md` — append-only, atualizar com `## YYYY-MM-DDTHH:MM-03:00` a cada conjunto de ações
-- `tarefas-retomada.md` — este arquivo, atualizar ao final de cada sessão
-- Idioma: português para nomes de arquivo e seções, inglês para código
-
----
-
-## Como Iniciar a Sessão
-
-1. Solicitar PAT ao TL
-2. Seguir `agente-git-sandbox/private-git-session-bootstrap-prompt.md`
-3. Clonar `agente-monorepo-template` como repositório de trabalho
-4. Ler este arquivo (`tarefas-retomada.md`)
-5. Ler `tarefas-log.md` para entender o histórico
-6. Executar a próxima tarefa pendente (análise de `backup-edge40`)
-7. Atualizar `tarefas-log.md` com o que foi feito
-8. Atualizar este arquivo ao final da sessão
-
----
-
-## Atualização Pós-Sessão 2026-06-04
-
-### Análise de backup-edge40 concluída
-- `docs/ANÁLISE-DETALHADA-BACKUP-EDGE40-ARTEFATOS.md` criado
-- Artefatos críticos: Filesystem Conventions, dd-validation-runtime, Data Dictionary, MCP Foundations specs, MCP00 tool/resource/prompt conventions
-- Artefatos importantes: Site Renderer CMS, Design Tokens Package
-
-### Novo status das tarefas pendentes
-
-1. **⏳ Consolidar reconhecimento completo** — todos os repositórios foram analisados. Próximo passo: consolidar achados e criar plano de implementação por categoria.
-2. **⏳ Avaliar se `@box00/dd-validation-runtime` merece POC próprio** — código maduro e relevante.
-3. **⏳ Criar `tarefas-implementação.md`** — plano de implementação por fase após consolidação.
-
----
-
-## Atualização Final da Sessão 2026-06-04
-
-### Concluído nesta sessão
-- ✅ Fase de reconhecimento 100% completa (todos os repositórios analisados)
-- ✅ `mapa-executivo-plataforma.md` criado e revisado pelo fundador
-- ✅ `CLAUDE.md` criado com regras obrigatórias do agente
-- ✅ Padronização de idioma (português) em todos os documentos
-- ✅ `tarefas-retomada.md` e `tarefas-log.md` como documentos vivos estabelecidos
-
-### Como iniciar a próxima sessão
-1. Solicitar PAT ao TL
-2. Seguir `agente-git-sandbox/private-git-session-bootstrap-prompt.md`
-3. Ler `CLAUDE.md` — regras obrigatórias do agente
-4. Ler `mapa-executivo-plataforma.md` — visão estratégica
-5. Ler este arquivo (`tarefas-retomada.md`)
-6. Ler `tarefas-log.md` — histórico
-7. Executar próxima tarefa pendente
-
-### Próximas tarefas pendentes (prioridade)
-1. Consolidar package canônico de acesso a banco de dados — avaliar candidatos em box00-monorepo, tokke e outros
-2. Mapear todos os packages fundamentais da plataforma e seus candidatos por categoria
-3. Avaliar extração de `@box00/dd-validation-runtime` como repositório POC
-4. Definir quais packages extrair primeiro (CLI00, MCP Foundations, Browser Extension Foundations)
-5. Atualizar `mapa-executivo-plataforma.md` conforme análise de packages avança
+**Próxima sessão:** Abrir `INDICE.md` → seguir procedimento em `GUIA-OPERACIONAL.md`
