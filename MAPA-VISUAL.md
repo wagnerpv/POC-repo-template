@@ -122,7 +122,7 @@ eco00-monorepo/
 │       └── [full-stack, APIs]
 │
 │   └── packages/                           [Packages reutilizáveis]
-│       └── [@box00/*, core-libs]
+│       └── [@eco00/*, core-libs]
 │
 └── .local/                                 [Artifacts locais - gitignored]
 ```
