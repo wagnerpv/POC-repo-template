@@ -9,9 +9,8 @@
 ## Princípios
 
 1. **Organização por Tipo, Não por Projeto**
-   - `src/` → código-fonte do runtime/core
-   - `apps/` → aplicações (full-stack, SSR, APIs)
-   - `packages/` → packages reutilizáveis
+   - `apps/` → aplicações (full-stack, SSR, APIs) com `src/` dentro
+   - `packages/` → packages reutilizáveis com `src/` dentro
    - `vendor/` → dependencies versionadas
    - `sandbox/` → ambientes isolados de teste
    - `docs/` → documentação
@@ -27,42 +26,62 @@
    - Nível 2: versão (ex: `v1.0.0`)
    - Sem intermediários (`versions/`, `current`, `VERSION`)
 
+4. **`src/` Vive Dentro de Apps e Packages**
+   - Não existe `src/` top-level
+   - Cada app tem seu próprio `src/`
+   - Cada package tem seu próprio `src/`
+
 ---
 
 ## Estrutura Proposta
 
 ```
 eco00-monorepo-template/
-├── src/                        # Runtime/core do eco00
-│   ├── plugin.ts               # Bun plugin (ex: para compilação)
-│   ├── router.ts               # Router/matching
-│   ├── runtime/                # APIs de runtime
-│   │   ├── context.ts
-│   │   ├── render.ts
-│   │   ├── session.ts
-│   │   └── ...
-│   ├── layouts/
-│   └── pages/                  # Páginas de exemplo
-│
 ├── apps/                       # Aplicações
 │   ├── doc-site/              # Documentação da plataforma
-│   └── [app-name]/            # Aplicações do template
+│   │   ├── src/
+│   │   │   ├── pages/
+│   │   │   ├── layouts/
+│   │   │   └── components/
+│   │   ├── package.json
+│   │   └── tsconfig.json
+│   │
+│   └── example-app/
+│       ├── src/
+│       │   ├── api/
+│       │   ├── pages/
+│       │   ├── db/
+│       │   └── components/
+│       ├── package.json
+│       └── tsconfig.json
 │
 ├── packages/                   # Packages reutilizáveis
 │   ├── @eco00/
 │   │   ├── ssr-foundations/
+│   │   │   ├── src/
+│   │   │   ├── dist/
+│   │   │   ├── package.json
+│   │   │   ├── tsconfig.json
+│   │   │   └── tests/
+│   │   │
 │   │   ├── html-ui/
+│   │   ├── database/
 │   │   └── ...
-│   └── [other scopes]/
+│   │
+│   └── @custom/
+│       └── [other-scope]/
 │
 ├── vendor/                     # Dependencies versionadas
-│   └── eco00-ssr-foundations/
-│       ├── v1.0.0/
-│       └── v1.1.0/
+│   ├── eco00-ssr-foundations/
+│   │   ├── v1.0.0/
+│   │   └── v1.1.0/
+│   └── README.md
 │
 ├── sandbox/                    # Ambientes isolados
 │   ├── dev/
 │   ├── test/
+│   ├── staging/
+│   ├── .gitkeep
 │   └── README.md
 │
 ├── docs/                       # Documentação
@@ -106,13 +125,13 @@ eco00-monorepo-template/
 
 | Antes | Depois | Motivo |
 |-------|--------|--------|
-| Sem `src/` | + `src/` para runtime | Separação clara: runtime vs. aplicações |
 | `.scripts/` | → `scripts/` | Convenção padrão (sem ponto) |
 | Sem `tests/` | + `tests/` | Testes do projeto no nível raiz |
 | Sem `public/` | + `public/` | Assets estáticos servidos |
 | `.local/` (gitignored) | ✓ mantém | Local artifacts |
 | `vendor/` complexo | `vendor/` simples (2 níveis) | Simplificar estrutura |
 | `sandbox/` vazio | `sandbox/` com estrutura | Ambientes isolados (dev, test) |
+| `src/` top-level (astro00) | Sem `src/` top-level | `src/` vive dentro de apps/packages |
 
 ---
 
@@ -123,30 +142,6 @@ Copiar do astro00:
 - `features-do-release.md` — backlog para release atual
 - `features-fora-do-release.md` — backlog pós-release
 - `features-fora-do-projeto.md` — fora de escopo deliberadamente
-
----
-
-## Estrutura de `src/` (Exemplo: SSR Runtime)
-
-```
-src/
-├── plugin.ts                   # Bun plugin para .astro
-├── router.ts                   # Routing + matching
-├── runtime/
-│   ├── index.ts                # Exports publicos
-│   ├── context.ts              # Astro global
-│   ├── render.ts               # Template rendering
-│   ├── session.ts              # Session management
-│   ├── cookies.ts              # Cookie handling
-│   ├── escape.ts               # HTML escaping
-│   └── util.ts                 # Utilities
-├── layouts/
-│   └── base.astro
-└── pages/
-    ├── index.astro
-    └── about/
-        └── index.astro
-```
 
 ---
 
@@ -198,10 +193,10 @@ packages/
 
 1. **Nomes sempre minúsculos** — padronização, compatibilidade cross-platform
 2. **`vendor/` em 2 níveis** — simplicidade vs. anterior `versions/current/VERSION`
-3. **`src/` para runtime** — separação clara de código-core vs. apps
-4. **`scripts/` em vez de `.scripts/`** — convenção standard (sem ponto)
-5. **`tests/` na raiz** — testes do projeto centralizado (não dentro de packages)
-6. **`sandbox/` estruturado** — dev, test, staging ambientes isolados
+3. **`scripts/` em vez de `.scripts/`** — convenção standard (sem ponto)
+4. **`tests/` na raiz** — testes do projeto centralizado (não dentro de packages)
+5. **`sandbox/` estruturado** — dev, test, staging ambientes isolados
+6. **`src/` dentro de apps e packages** — não top-level, organização clara
 7. **Backlog em 3 arquivos** — clara separação: release / pós-release / fora-de-escopo
 
 ---
