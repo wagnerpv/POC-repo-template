@@ -144,7 +144,7 @@ O `agente-monorepo-template` é a base para novos projetos monorepo. Atualmente 
 
 ## Objetivo Macro do Template
 
-O `agente-monorepo-template` não é um exercício técnico. É a fundação que vai permitir a Eco Zero Zero entrar em operação com seus produtos e migrar os legados existentes.
+O `agente-monorepo-template` não é um exercício técnico. É a fundação que vai permitir a BOX00 entrar em operação com seus produtos e migrar os legados existentes.
 
 ### Ordem de Prioridade dos Consumidores
 

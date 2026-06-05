@@ -6,7 +6,7 @@
 
 ## 🎯 Propósito
 
-O `eco00-monorepo-template` é a **arquitetura base** para construção de aplicações web SSR-first da plataforma Eco Zero Zero. Serve como referência canônica de padrões, packages, decisões de stack e fluxo de trabalho para todos os produtos que emergem da plataforma.
+O `eco00-monorepo-template` é a **arquitetura base** para construção de aplicações web SSR-first da plataforma BOX00. Serve como referência canônica de padrões, packages, decisões de stack e fluxo de trabalho para todos os produtos que emergem da plataforma.
 
 **Não é um produto final**, mas a **fundação reutilizável** que permite a criação rápida e consistente de produtos novos (BrCitas, BitBox00, etc.) com padrões validados em produção.
 
@@ -19,12 +19,12 @@ O `eco00-monorepo-template` é a **arquitetura base** para construção de aplic
 │         eco00-monorepo-template (Base)              │
 │                                                     │
 │  ├─ packages/ (reutilizáveis)                       │
-│  │  ├─ @eco00-zero-zero/ssr-foundations                      │
-│  │  ├─ @eco00-zero-zero/html-ui                              │
-│  │  ├─ @eco00-zero-zero/master-detail-html                   │
-│  │  ├─ @eco00-zero-zero/database                             │
-│  │  ├─ @eco00-zero-zero/carteiro-service                     │
-│  │  └─ @eco00-zero-zero/eco00-event-system                   │
+│  │  ├─ @box00/ssr-foundations                      │
+│  │  ├─ @box00/html-ui                              │
+│  │  ├─ @box00/master-detail-html                   │
+│  │  ├─ @box00/database                             │
+│  │  ├─ @box00/carteiro-service                     │
+│  │  └─ @box00/eco00-event-system                   │
 │  │                                                  │
 │  ├─ apps/ (exemplos/referência)                     │
 │  │  ├─ example-ssr-app                              │
@@ -62,7 +62,7 @@ O `eco00-monorepo-template` é a **arquitetura base** para construção de aplic
 
 **Web Framework:**
 - Astro 6.3+ (SSR-first)
-- Sem React puro; componentes via `@eco00-zero-zero/html-ui`
+- Sem React puro; componentes via `@box00/html-ui`
 
 **Backend:**
 - Hono 4 (HTTP routing + middleware)
@@ -104,11 +104,11 @@ O `eco00-monorepo-template` é a **arquitetura base** para construção de aplic
 
 | # | Package | Propósito | Status | POC |
 |----|---------|-----------|--------|-----|
-| 1 | `@eco00-zero-zero/ssr-foundations` | Framework SSR base | POC | POC-ssr-foundations |
-| 2 | `@eco00-zero-zero/html-ui` | Componentes UI reutilizáveis | POC | POC-app00ui-astro |
-| 3 | `@eco00-zero-zero/master-detail-html` | Padrão mestre-detalhe | Novo | — |
-| 4 | `@eco00-zero-zero/database` | ORM + migrations (Drizzle) | Novo | — |
-| 5 | `@eco00-zero-zero/carteiro-service` | Envio de mensagens | POC | POC-carteiro-2026 |
+| 1 | `@box00/ssr-foundations` | Framework SSR base | POC | POC-ssr-foundations |
+| 2 | `@box00/html-ui` | Componentes UI reutilizáveis | POC | POC-app00ui-astro |
+| 3 | `@box00/master-detail-html` | Padrão mestre-detalhe | Novo | — |
+| 4 | `@box00/database` | ORM + migrations (Drizzle) | Novo | — |
+| 5 | `@box00/carteiro-service` | Envio de mensagens | POC | POC-carteiro-2026 |
 
 **Timeline:** Q3 2026 (após framework operacional validado)
 
@@ -123,7 +123,7 @@ O `eco00-monorepo-template` é a **arquitetura base** para construção de aplic
 
 ### Fase 3: Pós-Consumidores (Após Estabilidade)
 
-- `@eco00-zero-zero/eco00-event-system` (NATS/JetStream) — necessário para BitBox00+ multi-serviço
+- `@box00/eco00-event-system` (NATS/JetStream) — necessário para BitBox00+ multi-serviço
 - Migração de legados (carteiro, tokke-agendamentos, site-ebpe)
 
 **Timeline:** Q1 2027+
@@ -244,11 +244,11 @@ Todos os produtos suportam **RBAC (5 roles padrão)**:
 - 🔄 Documentação de visão de produto (este doc + VISAO-PRODUTO-FRAMEWORK-HTML.md)
 
 ### Q3 2026
-- Validar `@eco00-zero-zero/ssr-foundations` (POC → package)
-- Refatorar `@eco00-zero-zero/html-ui` (POC → package)
-- Criar `@eco00-zero-zero/master-detail-html` (novo)
-- Criar `@eco00-zero-zero/database` (novo — Drizzle ORM)
-- Refatorar `@eco00-zero-zero/carteiro-service` (POC → package)
+- Validar `@box00/ssr-foundations` (POC → package)
+- Refatorar `@box00/html-ui` (POC → package)
+- Criar `@box00/master-detail-html` (novo)
+- Criar `@box00/database` (novo — Drizzle ORM)
+- Refatorar `@box00/carteiro-service` (POC → package)
 - **Iniciar BrCitas** (consumidor real #1)
 
 ### Q4 2026
@@ -258,7 +258,7 @@ Todos os produtos suportam **RBAC (5 roles padrão)**:
 
 ### Q1 2027+
 - BitBox00 em produção
-- `@eco00-zero-zero/eco00-event-system` POC
+- `@box00/eco00-event-system` POC
 - Migração de legados (carteiro, tokke, ebpe)
 
 ---

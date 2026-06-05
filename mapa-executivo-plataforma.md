@@ -85,9 +85,9 @@ Serviços internos da plataforma comunicam via eventos, não via chamadas de API
 ## Packages da Plataforma
 
 ### Em uso ou prontos para extração
-- **`@eco00-zero-zero/ssr-foundations`** — SSR server Bun + Preact. Filesystem routing, middleware, RBAC, session.
-- **`@eco00-zero-zero/data-dictionary-v1`** — schema canônico de Data Dictionary com Zod.
-- **`@eco00-zero-zero/dd-validation-runtime`** — runtime de validação baseado no Data Dictionary.
+- **`@box00/ssr-foundations`** — SSR server Bun + Preact. Filesystem routing, middleware, RBAC, session.
+- **`@box00/data-dictionary-v1`** — schema canônico de Data Dictionary com Zod.
+- **`@box00/dd-validation-runtime`** — runtime de validação baseado no Data Dictionary.
 - **`app00ui-astro`** — biblioteca de componentes UI para Astro. 21 componentes, design tokens.
 
 ### Candidatos identificados — a avaliar e consolidar

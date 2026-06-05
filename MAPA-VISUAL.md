@@ -11,7 +11,7 @@
 │                    VISÃO ESTRATÉGICA                             │
 │                                                                   │
 │   mapa-executivo-plataforma.md                                   │
-│   "O que estamos construindo como Eco Zero Zero"                         │
+│   "O que estamos construindo como BOX00"                         │
 │   (Stack canônico, produtos, decisões, o que não existe)        │
 │                                                                   │
 │   Leitura: Wagner (escritor) + Agente (consultor)                │
@@ -122,7 +122,7 @@ eco00-monorepo/
 │       └── [full-stack, APIs]
 │
 │   └── packages/                           [Packages reutilizáveis]
-│       └── [@eco00-zero-zero/*, core-libs]
+│       └── [@box00/*, core-libs]
 │
 └── .local/                                 [Artifacts locais - gitignored]
 ```
@@ -283,7 +283,7 @@ Ler/Consultar → ║ Lê antes de    ║ Lê SEMPRE que  ║ Ambos consultam
 **Preciso de:** → **Consultar:**
 
 - Visão geral do projeto → `README.md`
-- Visão estratégica de Eco Zero Zero → `mapa-executivo-plataforma.md`
+- Visão estratégica de BOX00 → `mapa-executivo-plataforma.md`
 - Objetivo desta sprint → `tarefas-objetivo.md`
 - Lista de tarefas → `tarefas.md`
 - Histórico do que foi feito → `tarefas-log.md`
