@@ -114,7 +114,7 @@ Leia isto **primeiro** quando tiver dúvida de por onde começar.
 | Documento | Propósito | Público | Frequência |
 |-----------|-----------|---------|-----------|
 | [`CLAUDE.md`](./CLAUDE.md) | Regras do agente + git workflow | Agente | Início de sessão |
-| [`mapa-executivo-plataforma.md`](./mapa-executivo-plataforma.md) | Visão estratégica BOX00 | Tech Lead + Agente | Início de sessão |
+| [`mapa-executivo-plataforma.md`](./mapa-executivo-plataforma.md) | Visão estratégica Eco Zero Zero | Tech Lead + Agente | Início de sessão |
 | [`tarefas-retomada.md`](./tarefas-retomada.md) | Handover entre sessões | Agente | Início de sessão |
 | [`tarefas.md`](./tarefas.md) | Checklist de tarefas | Agente | Início de sessão |
 

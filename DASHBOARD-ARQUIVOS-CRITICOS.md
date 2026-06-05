@@ -10,7 +10,7 @@
 ## 🔴 Tier 1 — Máxima Prioridade (Consultar Todo Início de Sessão)
 
 ### 1. `mapa-executivo-plataforma.md`
-**Propósito:** Bússola estratégica — visão macro do que BOX00 é, stack canônico, decisões.  
+**Propósito:** Bússola estratégica — visão macro do que Eco Zero Zero é, stack canônico, decisões.  
 **Público:** Tech Lead (Wagner), Agente, Qualquer um tomando decisão técnica  
 **Frequência de atualização:** Após decisão estratégica (mensal mínimo)  
 **Gatilhos de mudança:**
@@ -147,7 +147,7 @@
 **Público:** Tech Lead de cada produto (escritor e leitor)  
 **Frequência:** Criar novo ao iniciar novo produto  
 **Diferença com mapa-executivo-plataforma:**
-- Plataforma = "o que estamos construindo como BOX00"
+- Plataforma = "o que estamos construindo como Eco Zero Zero"
 - Produto = "o que ESTE produto é, para quem, por quê"
 
 **Exemplo:** brcitas tem seu próprio `brcitas/mapa-executivo-produto.md`
