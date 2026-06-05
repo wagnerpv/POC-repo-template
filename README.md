@@ -1,6 +1,6 @@
-# agente-perplexity-sandbox
+# eco00-monorepo-template
 
-Minimal workspace bootstrap for running a local workflow compatible with Perplexity-style sandbox tasks.
+Foundational monorepo template for BOX00 platform products. Standardized structure for packages, applications, and deployment automation.
 
 ## Structure
 
