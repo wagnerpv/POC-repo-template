@@ -131,3 +131,120 @@
 - Deletada branch remota `feat/operational-framework`
 - Executado `git fetch --all --prune` — **invariante mantido: local = remote**
 - **Status final:** Operação completa, documentação pronta para uso, fluxo operacional estabelecido
+
+## 2026-06-05T15:30-03:00
+
+- **Operação: Consolidação de Estrutura e Deploy Workflows**
+- Criada branch `feat/deploy-spec`
+- Commit: Deploy specification (release, vendor install, app deployment model)
+- Commit: Checkup script + tool setup scripts
+- Commit: Push + PR automation scripts
+- PR #30 criada: "docs: add deploy spec - release, vendor install, and app deployment model"
+- PR #30 aprovada e mergeada por Wagner
+- Sincronizado main
+- Branch deletada
+
+## 2026-06-05T15:35-03:00
+
+- **Operação: Estrutura de Diretórios e Vendor/Sandbox**
+- Criada branch `chore/fix-structure`
+- Alterado README.md H1: "eco00-monorepo-template"
+- Criada estrutura vendor/: `vendor/eco00-ssr-foundations/v1.0.0/`
+- Criada estrutura sandbox/: `sandbox/` com README
+- PR #31 criada: "chore: fix readme h1, add vendor and sandbox structure"
+- PR #31 aprovada e mergeada
+- Sincronizado main
+- Branch deletada
+
+## 2026-06-05T15:40-03:00
+
+- **Operação: Análise Refinada baseada em astro00-poc**
+- Clonado POC-astro00 via git (com auth)
+- Lido README.md e SETUP.md do astro00
+- Criado `docs/ESTRUTURA-REFINED.md` com análise consolidada
+- Estrutura proposta: apps/, packages/, vendor/ (2 níveis), sandbox/, docs/, scripts/, tests/
+- Sem src/ top-level (src/ vive dentro de apps/ e packages/)
+- PR #32 criada: "docs: refined directory structure analysis based on astro00-poc"
+- Após análise completa, detectado erro: src/ top-level não deveria estar
+- PR #32 fechada (sem merge)
+
+## 2026-06-05T15:50-03:00
+
+- **Operação: README PAT Guidance + Consolidated Analysis**
+- Removido stdin recommendation (causa erros)
+- Enfatizado que PAT é ephemeral e seguro em logs
+- Criado `docs/CONSOLIDAÇÃO-ANÁLISE-COMPLETA.md` consolidando todas análises
+- Mapeados 7 repositórios: astro00, basta00, app00ui-astro, carteiro, backup-edge40, brcitas, tokke
+- Identificados 15+ artefatos críticos + importantes
+- Documentado status: ✅ FEITO (10), 🔄 EM ANDAMENTO (4), ➡️ A SEGUIR (13)
+- PR #33 criada: "chore: remove stdin recommendation, emphasize ephemeral PAT safety"
+- PR #33 fechada (sem merge)
+- PR #32 fechada (sem merge)
+- Consolidado em PR #34: "docs: refined structure analysis and update readme pat guidance"
+- PR #34 aprovada e mergeada
+- Sincronizado main
+- Branches deletadas
+
+## 2026-06-05T16:00-03:00
+
+- **Operação: Dev Environment Workflows + Mini-spec Update**
+- Criada branch `feat/dev-environment-workflows`
+- Atualizado `docs/deploy/MINI-SPEC-RELEASE-VENDOR-DEPLOY.md`:
+  - Adicionada seção "Ambientes de Desenvolvimento"
+  - Padrão: `dev-<7-char-id>` (ex: `dev-a1b2c3d`)
+  - Criação manual via `workflow_dispatch` (não automático)
+  - Destruição manual via `workflow_dispatch` (com confirmação)
+- Criado `.github/workflows/create-dev-env.yml` (112 linhas)
+  - Valida environment ID (7 chars)
+  - Cria vendor/, apps/, sandbox/
+  - Gera .env
+- Criado `.github/workflows/destroy-dev-env.yml` (114 linhas)
+  - Requer confirmação (confirm=yes)
+  - Remove diretório completamente
+- Commit único consolidado com 3 arquivos
+- PR #36 criada: "feat: add dev environment workflows and documentation"
+- PR #36 aprovada e mergeada
+- Sincronizado main
+- Branch deletada
+
+## 2026-06-05T16:10-03:00
+
+- **Operação: Leitura de TODOS docs de análise + Consolidação Final**
+- Lidos 17 arquivos .md em docs/ (completos)
+- Listados documentos: ANÁLISE-*, CONSOLIDAÇÃO-*, EXPLORAÇÃO-*, RECONHECIMENTO-*, TAREFA-*, TEMPLATE-*, GIT-WORKFLOW-*, ESTRUTURA-*, MINI-SPEC-*, VISAO-*
+- Criado sumário de 14 documentos de análise
+- Status: 7 repos mapeados, 15+ artefatos identificados, 3 seções de status
+- PR #37 (análise consolidada) já tinha sido feita em PR #34
+- Confirmado: tudo documentado, nada duplicado dessa vez
+
+## 2026-06-05T16:15-03:00
+
+- **Operação: Atualização de POP (Procedimento Operacional Padrão)**
+- Lido GUIA-OPERACIONAL.md completo (353 linhas)
+- Lido docs/GIT-WORKFLOW-VERIFICAÇÃO.md completo (209 linhas)
+- Identificados 3 erros a documentar:
+  1. Criação de múltiplos docs duplicados (análise)
+  2. Commits diretos em main (violando dev branch)
+  3. Não ler docs existentes antes de propor novo
+- Adicionado a GUIA-OPERACIONAL.md:
+  - Seção "Antes de Criar Qualquer Novo Documento" (checklist obrigatório)
+  - Situação 5: Criação de múltiplos docs de análise
+  - Situação 6: Commit direto em main (violando fluxo)
+  - Seção "Lições Aprendidas - Evitar Erros de Duplicação" (permanente)
+  - Total: +170 linhas de procedimentos
+- Commit: "docs: update operational guide with duplicate prevention and correct git workflow"
+- PR #38 criada: "docs: update operational guide with duplicate prevention and correct git workflow"
+- PR #38 aprovada e mergeada
+- Sincronizado main
+- Branch deletada
+
+## 2026-06-05T16:20-03:00 (ATUAL)
+
+- **Operação: Atualizar tarefas-log.md com histórico de PRs**
+- Clonado backup-edge40 com sucesso
+- Lido FILESYSTEM-CONVENTIONS.md de backup-edge40 (171 linhas)
+- Identificado: `~/box00/<env>` com 8 subdiretórios canônicos
+- Comparação: eco00 usa `/home/<user>/envs/` (caminho diferente, estrutura compatível)
+- Identificado erro de manutenção: tarefas-log.md estava desatualizado desde 14:45
+- Atualizando tarefas-log.md AGORA com todos PRs #30-#38 e ações da sessão
+- **Próximo:** Incorporar FILESYSTEM-CONVENTIONS sem duplicação
