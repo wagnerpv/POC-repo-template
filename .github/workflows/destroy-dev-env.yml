@@ -1,0 +1,114 @@
+name: Destroy Dev Environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment-id:
+        description: 'Environment ID to destroy (7 characters, e.g., a1b2c3d)'
+        required: true
+        type: string
+      confirm:
+        description: 'Confirm deletion (type: yes)'
+        required: true
+        type: choice
+        options:
+          - 'no'
+          - 'yes'
+
+permissions:
+  contents: read
+
+jobs:
+  destroy-dev-env:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate environment ID
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          if [[ ! $ENV_ID =~ ^[a-z0-9]{7}$ ]]; then
+            echo "❌ Invalid environment ID: $ENV_ID"
+            echo "Must be exactly 7 lowercase alphanumeric characters"
+            exit 1
+          fi
+          echo "✅ Valid environment ID: $ENV_ID"
+
+      - name: Check confirmation
+        run: |
+          if [ "${{ inputs.confirm }}" != "yes" ]; then
+            echo "❌ Destruction not confirmed. Aborting."
+            echo "Re-run workflow and set confirm=yes to proceed."
+            exit 1
+          fi
+          echo "✅ Destruction confirmed"
+
+      - name: Check if environment exists
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          
+          if [ ! -d "$ENV_PATH" ]; then
+            echo "⚠️  Environment dev-$ENV_ID not found at $ENV_PATH"
+            echo "Nothing to destroy."
+            exit 0
+          fi
+          echo "✅ Environment found, proceeding with destruction"
+
+      - name: Backup environment info (optional)
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          BACKUP_DIR="/tmp/dev-env-backup-$ENV_ID-$(date +%s)"
+          
+          if [ -d "$ENV_PATH" ]; then
+            echo "📦 Creating backup of environment metadata..."
+            mkdir -p "$BACKUP_DIR"
+            
+            # Backup .env if exists
+            if [ -f "$ENV_PATH/.env" ]; then
+              cp "$ENV_PATH/.env" "$BACKUP_DIR/.env.backup"
+            fi
+            
+            # Log file listing
+            find "$ENV_PATH" -type f > "$BACKUP_DIR/file-listing.txt" 2>/dev/null || true
+            
+            echo "✅ Backup created at $BACKUP_DIR"
+          fi
+
+      - name: Remove environment directory
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          
+          if [ -d "$ENV_PATH" ]; then
+            echo "🗑️  Removing environment directory..."
+            rm -rf "$ENV_PATH"
+            
+            if [ ! -d "$ENV_PATH" ]; then
+              echo "✅ Environment directory removed successfully"
+            else
+              echo "❌ Failed to remove environment directory"
+              exit 1
+            fi
+          fi
+
+      - name: Verify destruction
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          ENV_PATH="$HOME/envs/dev-$ENV_ID"
+          
+          if [ -d "$ENV_PATH" ]; then
+            echo "❌ Environment still exists at $ENV_PATH"
+            exit 1
+          fi
+          echo "✅ Verification complete: dev-$ENV_ID no longer exists"
+
+      - name: Output destruction details
+        run: |
+          ENV_ID="${{ inputs.environment-id }}"
+          
+          echo "## Dev Environment Destroyed"
+          echo ""
+          echo "**Environment ID:** dev-$ENV_ID"
+          echo "**Destroyed:** $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+          echo ""
+          echo "Environment has been completely removed from the system."
