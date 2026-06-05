@@ -8,7 +8,7 @@ Este arquivo define o comportamento obrigatório do agente de software ao trabal
 
 Antes de qualquer ação, o agente DEVE ler estes documentos na ordem:
 
-1. **`mapa-executivo.md`** — visão estratégica da plataforma. Norteia todas as decisões operacionais.
+1. **`mapa-executivo-plataforma.md`** — visão estratégica da plataforma. Norteia todas as decisões operacionais.
 2. **`tarefas-retomada.md`** — contexto da sessão anterior e tarefas pendentes.
 3. **`tarefas.md`** — checklist de tarefas detalhadas.
 4. **`tarefas-log.md`** — histórico append-only de ações realizadas.
@@ -17,7 +17,7 @@ Sem ler esses quatro documentos, o agente não tem contexto suficiente para toma
 
 ---
 
-## mapa-executivo.md — Uso Obrigatório
+## mapa-executivo-plataforma.md — Uso Obrigatório
 
 O mapa executivo é a bússola estratégica do fundador. O agente deve:
 
@@ -88,7 +88,7 @@ Detalhes completos em `docs/GIT-WORKFLOW-VERIFICAÇÃO.md`.
 
 | Documento | Propósito |
 |-----------|-----------|
-| `mapa-executivo.md` | Visão estratégica da plataforma — ler todo início de sessão |
+| `mapa-executivo-plataforma.md` | Visão estratégica da plataforma — ler todo início de sessão |
 | `tarefas-retomada.md` | Contexto e handover entre sessões |
 | `tarefas.md` | Checklist de tarefas |
 | `tarefas-log.md` | Histórico append-only de ações |

@@ -101,3 +101,9 @@
 - `tarefas-objetivo.md` atualizado com objetivo macro e implicações
 - `mapa-executivo.md` atualizado com seção de consumidores por prioridade
 - Clarificado: box00-monorepo tem funcionalidades únicas a trazer antes de tokke migrar
+
+## 2026-06-05T00:20-03:00
+
+- `mapa-executivo.md` renomeado para `mapa-executivo-plataforma.md`
+- `mapa-executivo-produto.md` criado — template para mapas de produto específico
+- Referências atualizadas em CLAUDE.md e tarefas-retomada.md

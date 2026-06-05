@@ -134,7 +134,7 @@ Você está começando uma sessão nova, sem memória da sessão anterior. Este 
 
 ### Concluído nesta sessão
 - ✅ Fase de reconhecimento 100% completa (todos os repositórios analisados)
-- ✅ `mapa-executivo.md` criado e revisado pelo fundador
+- ✅ `mapa-executivo-plataforma.md` criado e revisado pelo fundador
 - ✅ `CLAUDE.md` criado com regras obrigatórias do agente
 - ✅ Padronização de idioma (português) em todos os documentos
 - ✅ `tarefas-retomada.md` e `tarefas-log.md` como documentos vivos estabelecidos
@@ -143,7 +143,7 @@ Você está começando uma sessão nova, sem memória da sessão anterior. Este 
 1. Solicitar PAT ao TL
 2. Seguir `agente-git-sandbox/private-git-session-bootstrap-prompt.md`
 3. Ler `CLAUDE.md` — regras obrigatórias do agente
-4. Ler `mapa-executivo.md` — visão estratégica
+4. Ler `mapa-executivo-plataforma.md` — visão estratégica
 5. Ler este arquivo (`tarefas-retomada.md`)
 6. Ler `tarefas-log.md` — histórico
 7. Executar próxima tarefa pendente
@@ -153,4 +153,4 @@ Você está começando uma sessão nova, sem memória da sessão anterior. Este 
 2. Mapear todos os packages fundamentais da plataforma e seus candidatos por categoria
 3. Avaliar extração de `@box00/dd-validation-runtime` como repositório POC
 4. Definir quais packages extrair primeiro (CLI00, MCP Foundations, Browser Extension Foundations)
-5. Atualizar `mapa-executivo.md` conforme análise de packages avança
+5. Atualizar `mapa-executivo-plataforma.md` conforme análise de packages avança
