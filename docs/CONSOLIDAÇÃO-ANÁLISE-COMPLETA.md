@@ -275,3 +275,47 @@ backup-edge40/
 **Status:** Pronto para implementação  
 **Artefatos Identificados:** 15+ candidatos críticos  
 **Análise Completa:** ✅ Sim
+
+---
+
+## STATUS DE EXECUÇÃO
+
+**Última atualização:** 2026-06-05 16:00 UTC
+
+### ✅ FEITO
+
+- [x] Análise de POC-astro00 (clonado e estudado)
+- [x] Análise de POC-basta00 (documentado)
+- [x] Análise de POC-app00ui-astro (documentado)
+- [x] Análise de POC-carteiro-service-2026 (documentado)
+- [x] Análise de backup-edge40 (parcial - sem ZIPs)
+- [x] Consolidação de todos os achados
+- [x] Identificação de artefatos críticos (5) + importantes (5+)
+- [x] Criação de documento CONSOLIDAÇÃO-ANÁLISE-COMPLETA.md
+- [x] Mapeamento de repositórios (7 repos)
+- [x] Documentação de padrões consolidados
+
+### 🔄 EM ANDAMENTO
+
+- [ ] Extração de @eco00/ssr-foundations como package
+- [ ] Extração de db.ts como @eco00/json-store
+- [ ] Clonagem e análise profunda de POC-basta00
+- [ ] Análise de ZIPs em backup-edge40/agents/edge40-2026-XX-XX/
+
+### ➡️ A SEGUIR
+
+- [ ] Ler FILESYSTEM-CONVENTIONS.md (backup-edge40/agents/)
+- [ ] Clonar POC-basta00 inteira (ou apenas wip/ssr-foundations?)
+- [ ] Criar packages em `/packages/`:
+  - `@eco00/ssr-foundations`
+  - `@eco00/json-store`
+  - `@eco00/app00ui-astro` (opcional)
+- [ ] Implementar ADR pattern em `/standards/adrs/`
+- [ ] Implementar CHOICES_MADE_BY_DEVELOPERS.md pattern
+- [ ] Validar design system (theme-vars.css) no template
+- [ ] Documentar padrão de routing (middleware)
+- [ ] Clarificar contexto de backup-edge40 (quais sessões importam?)
+- [ ] Esclarecer o que é "DG40"
+- [ ] Validar stacks com brcitas (produção)
+- [ ] Decidir sobre incorporação de app00ui-astro
+- [ ] Decidir sobre incorporação de email dispatcher patterns
