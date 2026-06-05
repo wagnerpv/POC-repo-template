@@ -128,6 +128,37 @@ gh pr create --base dev --head feat/seu-feature
 
 ## 📝 Procedimento Padrão de Sessão (Agente)
 
+### Antes de Criar Qualquer Novo Documento (OBRIGATÓRIO)
+
+```bash
+# 1. Procure se já existe análise sobre este tópico
+grep -r "palavra-chave-do-seu-documento" docs/ *.md
+
+# 2. Se encontrou algo:
+   - Atualize o documento existente (adicione seção, não crie novo)
+   - Evite duplicação de análises com mesmo propósito
+   - Se precisa de novo doc, explique por que não se encaixa em nenhum existente
+
+# 3. Se o doc deve ser realmente novo:
+   - Coloque o mais próximo possível do ponto de entrada
+   - Prefira: raiz > docs/ > docs/subdirs/
+   - Linque de docs existentes para criar rede única
+   
+# 4. Consolidação de análises:
+   - Se criou 2+ docs sobre o mesmo tema: CONSOLIDAR em UM
+   - Usar seções internas (## Seção 1, ## Seção 2) não novos arquivos
+   - Manter sincronismo entre docs (não duplicar conteúdo)
+```
+
+### Checklist de Consistência Antes de PR
+- [ ] Pesquisei se doc com mesmo propósito já existe?
+- [ ] Se sim, atualizei existente em vez de criar novo?
+- [ ] Minhas análises estão em um único lugar (consolidadas)?
+- [ ] Documentos interligados? (cross-references claras)
+- [ ] Stack canônico, decisões e padrões estão sincronizados em todos os docs?
+
+---
+
 ### Início de Sessão
 ```bash
 # 1. Ler documentos de contexto (15 min)
@@ -294,6 +325,54 @@ git commit -m "feat: ..."
 git push origin feat/seu-feature
 ```
 
+### Situação 5: "Eu criei múltiplos documentos de análise (duplicação)"
+**Evitar este erro:**
+1. **Antes de criar qualquer documento**, faça busca completa:
+   ```bash
+   grep -r "palavra-chave" docs/ ./*.md
+   ```
+2. **Se já existe análise sobre o tópico:**
+   - ✅ Atualizar doc existente (seção novo em local apropriado)
+   - ❌ Nunca criar doc novo com mesmo propósito
+3. **Se deve ser doc novo:**
+   - Escolha o local mais próximo do "ponto de entrada" (ex: raiz > docs/)
+   - Vinculer de docs existentes para evitar silos
+4. **Consolidar em um único lugar:**
+   - Se criou 2+ docs sobre mesmo tema, consolidar em 1
+   - Usar seções internas para organizar subtópicos
+5. **Manter sincronismo:**
+   - Se mesmo conteúdo aparece em 2 lugares, de fato precisa estar em 2?
+   - Se sim, deixar claro a relação (cross-references)
+
+---
+
+### Situação 6: "Eu abri PR direto em main (violando fluxo dev)"
+**Nunca fazer:**
+```bash
+# ❌ ERRADO
+git checkout main
+git commit -m "..."
+git push origin main
+gh pr create --base main
+
+# ✅ CORRETO
+git checkout -b feat/xxx
+git commit -m "..."
+git push origin feat/xxx
+gh pr create --base dev --head feat/xxx
+```
+
+**Como foi feito (erro):**
+- Commits foram direto em main (bypassing `dev`)
+- PR foi aberta para main (deveria ser para dev)
+- Violou isolamento de desenvolvimento
+
+**Como corrigir quando isso acontecer:**
+1. Revert commits de main se possível (avisar TL primeiro)
+2. Criar branch a partir de commit anterior
+3. Cherry-pick commits corretos
+4. Abrir PR para `dev` com base correta
+
 ---
 
 ## 📅 Cadência de Revisão
@@ -335,6 +414,97 @@ git push origin feat/seu-feature
 2. `mapa-executivo-plataforma.md` — Decisões estratégicas
 3. `docs/GIT-WORKFLOW-VERIFICAÇÃO.md` — Verificações Git
 4. Este arquivo (`GUIA-OPERACIONAL.md`) — Operações do dia a dia
+
+---
+
+## 📚 Lições Aprendidas - Evitar Erros de Duplicação e Fluxo
+
+### Erro 1: Criar Múltiplos Documentos de Análise (Duplicação)
+
+**O que foi feito (errado):**
+- Criados 2 documentos separados com mesma análise
+- CONSOLIDAÇÃO-ANÁLISE-COMPLETA.md + análises espalhadas em docs/
+- Criou inconsistência e silos de informação
+
+**Por que é problema:**
+- Manutenção impossível (manter 2 docs sincronizados)
+- Confusão sobre qual é "verdade"
+- Violação de DRY (Don't Repeat Yourself)
+
+**Como evitar:**
+1. **Sempre busque primeiro:**
+   ```bash
+   grep -r "tópico" docs/ *.md
+   find docs -name "*análise*" -o -name "*análi*"
+   ```
+2. **Se doc já existe com propósito similar:**
+   - Atualize com nova seção, não crie novo arquivo
+   - Exemplo: `CONSOLIDAÇÃO-ANÁLISE-COMPLETA.md` é o lugar único para todas análises de repos
+3. **Se deve criar novo:**
+   - Explique por que não se encaixa em nenhum existente
+   - Coloque mais próximo da raiz (visibility)
+   - Linque de docs relacionados
+
+### Erro 2: Commitar Direto em `main` (Violando Fluxo de `dev`)
+
+**O que foi feito (errado):**
+- Commits foram para `main` em vez de `dev`
+- PRs foram abertas para `main` em vez de `dev`
+- Bypassed o fluxo de staging/validação
+
+**Por que é problema:**
+- `main` fica instável (não é sempre production-ready)
+- Impossível testar antes de merge
+- Viola arquitetura de branches (dev → main)
+
+**Como evitar:**
+1. **Sempre check branch atual ANTES de commit:**
+   ```bash
+   git branch --show-current
+   # Deve retornar feat/xxx, bugfix/xxx, docs/xxx, etc.
+   # NUNCA deve ser main ou dev
+   ```
+2. **Fluxo correto sempre:**
+   ```
+   git checkout -b feat/sua-feature
+   [fazer mudanças]
+   git commit + git push origin feat/sua-feature
+   gh pr create --base dev --head feat/sua-feature
+   ```
+3. **Se cometeu erro:**
+   ```bash
+   # Ver onde estou
+   git log --oneline -3
+   
+   # Se commitei em main/dev por acidente:
+   git reset HEAD~N               # Desfazer N commits
+   git checkout -b feat/xxx       # Criar branch correta
+   git cherry-pick <hash>         # Reaplica commits
+   ```
+
+### Erro 3: Não Ler Documentos Existentes Antes de Propor Novo (Redundância)
+
+**O que foi feito (errado):**
+- Criei novo documento de análise sem ler documentos existentes completos
+- Resultado: conteúdo redundante com RECONHECIMENTO-EM-ANDAMENTO.md, CONSOLIDAÇÃO-ACHADOS.md, etc.
+
+**Por que é problema:**
+- Tempo gasto em duplicar trabalho já feito
+- Inconsistência de informações
+- Impossível manter sincronizado
+
+**Como evitar:**
+1. **Leia TODOS os docs do repo antes de propor análise nova:**
+   ```bash
+   find docs -name "*.md" | xargs wc -l | sort -n
+   # Ler completo pelo menos os maiores
+   ```
+2. **Se algum existe parcialmente:**
+   - Atualize o existente (append, consolidar)
+   - Não crie doc paralelo
+3. **Mantenha único ponto de verdade:**
+   - Exemplo: `CONSOLIDAÇÃO-ANÁLISE-COMPLETA.md` é o doc único para análises de repos
+   - Tudo mais são referências ou indexadores (links)
 
 ---
 
