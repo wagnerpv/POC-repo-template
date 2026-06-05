@@ -20,6 +20,14 @@
 
 ## Status das Tarefas
 
+### ✅ Fase 0: Framework Operacional (CONCLUÍDA)
+
+- [x] Criar estrutura operacional completa
+- [x] Documentar fluxo de trabalho (branch → PR → main)
+- [x] Central de navegação (INDICE.md)
+
+---
+
 ### ✅ Fase 1: Exploração (CONCLUÍDA)
 
 - [x] **Explorar estrutura atual do template**
@@ -27,91 +35,69 @@
   - [x] Documentar estado atual
 
 - [x] **Explorar estruturas dos repositórios de referência**
-  - [x] Analisar POC-astro00 (principal)
-  - [x] Analisar brcitas (full-stack)
-  - [x] Analisar box00-carteiro-service (serviço especializado)
-  - [x] Analisar box00-monorepo (infraestrutura)
-  - [x] Analisar cliente-tokke-agendamentos (implementação cliente)
-  - [x] Documentar padrões encontrados em cada um
+  - [x] Analisar POC-astro00, brcitas, box00-carteiro-service
+  - [x] Documentar padrões encontrados
 
-- [x] **Mapear diferenças e melhorias disponíveis**
+- [x] **Mapear diferenças e melhorias**
   - [x] Comparar estruturas dos repositórios
   - [x] Identificar gaps e oportunidades
-  - [x] Priorizar melhorias por impacto
 
 ---
 
-### 🔴 Fase 2: Implementação (INICIANDO)
+### 🔴 Fase 2: Packages Essenciais (INICIANDO)
 
 **Phase 1: Fundações (Alta Prioridade)**
 
-- [ ] **Adicionar estrutura de decisões de engenharia**
-  - [ ] Criar `/docs/decisions/` directory
-  - [ ] Adicionar template para ADR (Architecture Decision Records)
-  - [ ] Documentar exemplo de decisão
+- [ ] **@box00/ssr-foundations**
+  - [ ] Validar POC-ssr-foundations
+  - [ ] Documentação + exemplos
+  - [ ] Tests: 100% cobertura
+  - [ ] Integrar ao template
 
-- [ ] **Criar app de exemplo Astro**
-  - [ ] Criar `apps/example-astro-app/`
-  - [ ] Setup básico com componentes
-  - [ ] Configurar TypeScript strict
-  - [ ] Adicionar testes Vitest
+- [ ] **@box00/html-ui**
+  - [ ] Refatorar POC-app00ui-astro
+  - [ ] 20+ componentes essenciais
+  - [ ] Directives: v-for, v-if, v-else
+  - [ ] Bootstrap 5 CSS-only
 
-- [ ] **Consolidar configurações de testing**
-  - [ ] Verificar vitest.config.ts
-  - [ ] Adicionar test helpers
-  - [ ] Setup de coverage
+- [ ] **@box00/master-detail-html**
+  - [ ] Criar padrão mestre-detalhe
+  - [ ] Responsivo
+  - [ ] Exemplo funcional
 
-- [ ] **Validar TypeScript strict em todos os pacotes**
-  - [ ] Revisar tsconfig.json
-  - [ ] Garantir strict mode ativo
+- [ ] **@box00/database**
+  - [ ] Drizzle ORM setup
+  - [ ] Schema BrCitas
+  - [ ] Migrations + seeds
 
-**Phase 2: Backend (Média Prioridade)**
+- [ ] **@box00/carteiro-service**
+  - [ ] Refatorar POC-carteiro-2026
+  - [ ] Múltiplos providers
+  - [ ] Queue async
 
-- [ ] **Criar app de exemplo com Hono 4**
-  - [ ] Criar `apps/example-api/`
-  - [ ] Setup Hono 4 basic
-  - [ ] Documentar padrões de API
+---
 
-- [ ] **Adicionar padrão de validação (Zod)**
-  - [ ] Setup Zod schemas
-  - [ ] Integração com Hono
+**Phase 2: Consumidores Reais (Validação)**
 
-- [ ] **Exemplo de banco de dados**
-  - [ ] Adicionar example database config
-  - [ ] Documentar patterns
+- [ ] **BrCitas Integration**
+  - [ ] Template + todos os packages Phase 1
+  - [ ] MVP validado
 
-**Phase 3: DevOps (Média Prioridade)**
+- [ ] **BitBox00 Integration**
+  - [ ] Segundo consumidor confirma padrões
+  - [ ] Feedback loop
 
-- [ ] **Adicionar Docker configuration**
-  - [ ] Criar `docker-local/` example
-  - [ ] Criar `docker-server/` pattern
-  - [ ] Documentar setup local
+---
 
-- [ ] **Setup CI/CD workflows**
-  - [ ] Criar `.github/workflows/` templates
-  - [ ] Test automation
-  - [ ] Build automation
+**Phase 3: Pós-Consumidores**
 
-- [ ] **Documentar deployment process**
-  - [ ] Criar deployment guide
-  - [ ] Environment variables pattern
+- [ ] **@box00/eco00-event-system**
+  - [ ] POC: NATS/JetStream
+  - [ ] Documentação
 
-**Phase 4: Documentation (Baixa Prioridade)**
+---
 
-- [ ] **Adicionar API documentation pattern**
-  - [ ] Criar `/docs/api/` directory
-  - [ ] API reference template
-  - [ ] Exemplos de endpoints
-
-- [ ] **Engineering decisions guidelines**
-  - [ ] Como registrar decisões
-  - [ ] Template completo
-  - [ ] Exemplos práticos
-
-- [ ] **Documentar padrões e conventions**
-  - [ ] Code organization
-  - [ ] Naming conventions
-  - [ ] File structure patterns
+**Para detalhes completos, ver:** `ROADMAP-PACKAGES-ECO00.md`
 
 ---
 
