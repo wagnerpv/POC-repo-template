@@ -24,7 +24,7 @@ O `eco00-monorepo-template` deve conter uma estrutura de packages que seja:
 
 Packages que precisam ser criados ou validados como POCs antes de serem incluídos no template.
 
-#### 1️⃣ `@box00/ssr-foundations` 
+#### 1️⃣ `@eco00-zero-zero/ssr-foundations` 
 **Repositório Real:** `POC-ssr-foundations` (https://github.com/wagnerpv/POC-ssr-foundations)
 
 **Propósito:** Framework SSR base para Astro + Bun + TypeScript  
@@ -47,7 +47,7 @@ Packages que precisam ser criados ou validados como POCs antes de serem incluíd
 
 ---
 
-#### 2️⃣ `@box00/html-ui`
+#### 2️⃣ `@eco00-zero-zero/html-ui`
 **Derivação:** POC-app00ui-astro (refatorar/estender)
 
 **Propósito:** Componentes HTML com template directives (v-for, v-if, v-else, etc.)  
@@ -93,7 +93,7 @@ Packages que precisam ser criados ou validados como POCs antes de serem incluíd
 
 ---
 
-#### 3️⃣ `@box00/master-detail-html`
+#### 3️⃣ `@eco00-zero-zero/master-detail-html`
 **Novo** — Criar baseado em padrão mestre-detalhe
 
 **Propósito:** Padrão UI reutilizável (lista + detalhe)  
@@ -115,7 +115,7 @@ Packages que precisam ser criados ou validados como POCs antes de serem incluíd
 
 ---
 
-#### 4️⃣ `@box00/carteiro-service`
+#### 4️⃣ `@eco00-zero-zero/carteiro-service`
 **Repositório Real:** Derivar de `POC-carteiro-service-2026` ou `box00-carteiro` (legado)
 
 **Propósito:** Serviço de envio de mensagens (email, SMS, webhooks)  
@@ -138,7 +138,7 @@ Packages que precisam ser criados ou validados como POCs antes de serem incluíd
 
 ---
 
-#### 5️⃣ `@box00/database`
+#### 5️⃣ `@eco00-zero-zero/database`
 **Novo** — Criar do zero
 
 **Propósito:** ORM/query builder + migrations para MySQL + SQLite  
@@ -219,7 +219,7 @@ Produtos que aguardam o template + packages da Fase 1 estar pronto.
 
 ### **FASE 3: Pós-BrCitas (Após Consumidores Reais)**
 
-#### 6️⃣ `@box00/eco00-event-system`
+#### 6️⃣ `@eco00-zero-zero/eco00-event-system`
 **Propósito:** Barramento de eventos para comunicação entre serviços  
 **Escopo:**
 - Event producer + consumer
@@ -273,14 +273,14 @@ BitBox00 (consumidor real)
 
 ## 🚀 Ordem de Implementação (Estrita)
 
-1. **Validar + Refinar `@box00/ssr-foundations`** (POC existe, pronto)
-2. **Validar + Refatorar `@box00/html-ui`** (POC existe, refatorar)
-3. **Criar `@box00/master-detail-html`** (novo)
-4. **Criar `@box00/database`** (novo, bloqueante)
-5. **Refatorar `@box00/carteiro-service`** (existe, refatorar)
+1. **Validar + Refinar `@eco00-zero-zero/ssr-foundations`** (POC existe, pronto)
+2. **Validar + Refatorar `@eco00-zero-zero/html-ui`** (POC existe, refatorar)
+3. **Criar `@eco00-zero-zero/master-detail-html`** (novo)
+4. **Criar `@eco00-zero-zero/database`** (novo, bloqueante)
+5. **Refatorar `@eco00-zero-zero/carteiro-service`** (existe, refatorar)
 6. **Integrar BrCitas** (consumidor real — valida tudo)
 7. **Integrar BitBox00** (segundo consumidor real)
-8. **Criar `@box00/eco00-event-system`** (Fase 2)
+8. **Criar `@eco00-zero-zero/eco00-event-system`** (Fase 2)
 
 ---
 
@@ -300,14 +300,14 @@ Produtos existentes que serão **eventualmente** migrados para eco00, mas não s
 
 ## ✅ Critério de Sucesso (por Package)
 
-### `@box00/ssr-foundations`
+### `@eco00-zero-zero/ssr-foundations`
 - [ ] Tests: 100% cobertura
 - [ ] Documentação: README + exemplos funcionais
 - [ ] Performance: SSR em <200ms
 - [ ] TypeScript: strict mode
 - [ ] Usado com sucesso em BrCitas
 
-### `@box00/html-ui`
+### `@eco00-zero-zero/html-ui`
 - [ ] 20+ componentes básicos (button, card, form, table, modal, etc.)
 - [ ] v-for, v-if, v-else directives funcionais
 - [ ] Acessibilidade (WCAG 2.1 AA)
@@ -315,27 +315,27 @@ Produtos existentes que serão **eventualmente** migrados para eco00, mas não s
 - [ ] Storybook ou exemplos
 - [ ] Usado em BrCitas + BitBox00
 
-### `@box00/master-detail-html`
+### `@eco00-zero-zero/master-detail-html`
 - [ ] Componente reutilizável 100%
 - [ ] Responsivo (desktop + mobile)
 - [ ] Exemplo funcional com dados reais
 - [ ] Usado em BrCitas listagem
 
-### `@box00/database`
+### `@eco00-zero-zero/database`
 - [ ] Schema para BrCitas (users, anúncios, etc.)
 - [ ] Migrations automáticas
 - [ ] Seeds funcionais
 - [ ] Tests: migrations + queries
 - [ ] Usado em BrCitas + BitBox00
 
-### `@box00/carteiro-service`
+### `@eco00-zero-zero/carteiro-service`
 - [ ] Suporta SMTP + SendGrid (múltiplos providers)
 - [ ] Template rendering
 - [ ] Queue async
 - [ ] Retry logic
 - [ ] Usado em BrCitas notificações
 
-### `@box00/eco00-event-system`
+### `@eco00-zero-zero/eco00-event-system`
 - [ ] NATS/JetStream backend
 - [ ] Topic-based routing
 - [ ] Exemplo: BitBox00 notificações globais
@@ -348,7 +348,7 @@ Produtos existentes que serão **eventualmente** migrados para eco00, mas não s
 1. **Validar `POC-ssr-foundations`**
    - Clonar repositório
    - Revisar código, testes, documentação
-   - Integrar como `@box00/ssr-foundations` no template
+   - Integrar como `@eco00-zero-zero/ssr-foundations` no template
 
 2. **Refatorar `POC-app00ui-astro`**
    - Clonar repositório
@@ -356,7 +356,7 @@ Produtos existentes que serão **eventualmente** migrados para eco00, mas não s
    - Adaptar directives (v-for, v-if, etc.)
    - Documentar uso
 
-3. **Especificar `@box00/database`**
+3. **Especificar `@eco00-zero-zero/database`**
    - Schema para BrCitas (users, ads, etc.)
    - Decisão: Drizzle ORM (confirmado)
    - Criar POC com schema funcional

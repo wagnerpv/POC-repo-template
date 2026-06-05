@@ -48,29 +48,29 @@
 
 **Phase 1: Fundações (Alta Prioridade)**
 
-- [ ] **@box00/ssr-foundations**
+- [ ] **@eco00-zero-zero/ssr-foundations**
   - [ ] Validar POC-ssr-foundations
   - [ ] Documentação + exemplos
   - [ ] Tests: 100% cobertura
   - [ ] Integrar ao template
 
-- [ ] **@box00/html-ui**
+- [ ] **@eco00-zero-zero/html-ui**
   - [ ] Refatorar POC-app00ui-astro
   - [ ] 20+ componentes essenciais
   - [ ] Directives: v-for, v-if, v-else
   - [ ] Bootstrap 5 CSS-only
 
-- [ ] **@box00/master-detail-html**
+- [ ] **@eco00-zero-zero/master-detail-html**
   - [ ] Criar padrão mestre-detalhe
   - [ ] Responsivo
   - [ ] Exemplo funcional
 
-- [ ] **@box00/database**
+- [ ] **@eco00-zero-zero/database**
   - [ ] Drizzle ORM setup
   - [ ] Schema BrCitas
   - [ ] Migrations + seeds
 
-- [ ] **@box00/carteiro-service**
+- [ ] **@eco00-zero-zero/carteiro-service**
   - [ ] Refatorar POC-carteiro-2026
   - [ ] Múltiplos providers
   - [ ] Queue async
@@ -91,7 +91,7 @@
 
 **Phase 3: Pós-Consumidores**
 
-- [ ] **@box00/eco00-event-system**
+- [ ] **@eco00-zero-zero/eco00-event-system**
   - [ ] POC: NATS/JetStream
   - [ ] Documentação
 

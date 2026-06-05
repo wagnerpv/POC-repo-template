@@ -40,7 +40,7 @@
 ## 2026-06-04T21:00-03:00
 
 - Análise real e completa de `POC-basta00` executada (leitura direta de código)
-- `@box00/ssr-foundations` documentado integralmente: API pública, pipeline de request, filesystem routing, SessionManager, RBAC, rendering (Preact SSR), 20+ engineering decisions
+- `@eco00-zero-zero/ssr-foundations` documentado integralmente: API pública, pipeline de request, filesystem routing, SessionManager, RBAC, rendering (Preact SSR), 20+ engineering decisions
 - Clarificado: `/packages/`, `/services/`, `/clis/`, `/mcps/`, `/integrations/` estão todos vazios em `POC-basta00`
 - Standards documentados: ADR-001, repository structure convention, architecture convention, PR review process, task template, deploy runbook
 - `docs/ANÁLISE_DETALHADA_BASTA00_ARTEFATOS.md` criado com matriz de 20 artefatos candidatos
@@ -79,7 +79,7 @@
 
 - `backup-edge40` analisado completamente (código TypeScript, não ZIPs/PDFs)
 - `docs/ANÁLISE-DETALHADA-BACKUP-EDGE40-ARTEFATOS.md` criado (363 linhas)
-- Artefatos críticos identificados: Filesystem Conventions (`~/box00/<env>`), `@box00/dd-validation-runtime`, `@box00/data-dictionary-v1`, MCP Foundations specs e convenção MCP00
+- Artefatos críticos identificados: Filesystem Conventions (`~/box00/<env>`), `@eco00-zero-zero/dd-validation-runtime`, `@eco00-zero-zero/data-dictionary-v1`, MCP Foundations specs e convenção MCP00
 - `tarefas-retomada.md` atualizado com status de backup-edge40 e novas tarefas pendentes
 - Reconhecimento de TODOS os repositórios de referência concluído nesta sessão
 

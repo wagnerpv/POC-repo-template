@@ -1,4 +1,4 @@
-# Regras do Agente — BOX00 agente-monorepo-template
+# Regras do Agente — Eco Zero Zero (eco00-monorepo-template)
 
 Este arquivo define o comportamento obrigatório do agente de software ao trabalhar neste repositório.
 

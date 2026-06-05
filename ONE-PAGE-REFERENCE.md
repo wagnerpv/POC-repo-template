@@ -9,7 +9,7 @@
 | Arquivo | O Quê | Quem | Quando |
 |---------|-------|------|--------|
 | **CLAUDE.md** | Regras do agente + git | Agente | Sempre |
-| **mapa-executivo-plataforma.md** | Visão estratégica BOX00 | Agente + Wagner | Sempre |
+| **mapa-executivo-plataforma.md** | Visão estratégica Eco Zero Zero | Agente + Wagner | Sempre |
 | **tarefas-retomada.md** | Onde paramos | Agente | Sempre |
 | **tarefas.md** | Tarefas + progresso | Agente | Sempre |
 
