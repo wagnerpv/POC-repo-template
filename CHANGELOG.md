@@ -4,6 +4,16 @@ Histórico de entregas mergeadas em `main`. Ordem cronológica reversa.
 
 ---
 
+## [2026-06-06] Auditoria e limpeza do repositório template
+
+- Removidos 20 arquivos obsoletos: análises de referência, artefatos de sessão, lixo acumulado (-3458 linhas)
+- `checkup-sandbox-claude.sh` movido de `.scripts/` para `scripts/` (canônico)
+- `CLAUDE.md` reescrito: alinhado ao workflow atual, sem referências a arquivos deletados
+- `GUIA-OPERACIONAL.md` patcheado: todas referências obsoletas substituídas
+
+**Branch:** work-session-20260606-1930
+**PR:** #43
+
 ## [2026-06-06] Canonização de work sessions e padrões de repositório
 
 - Estrutura canônica de sessões: `work-sessions/YYYYMMDD-HHNN/scratchpad.md`
