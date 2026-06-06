@@ -14,7 +14,7 @@ Estes documentos formam o "ciclo nervoso" da plataforma. Devem estar em sincroni
 ### 1. **Mapas Executivos** (Visão Estratégica)
 | Arquivo | Quem | Frequência | Gatilho |
 |---------|------|-----------|---------|
-| `mapa-executivo-plataforma.md` | Tech Lead (Wagner) | Após decisão estratégica | Nova tecnologia, produto, mudança de direção |
+| `REPO-STATUS.md` | Tech Lead (Wagner) | Após decisão estratégica | Nova tecnologia, produto, mudança de direção |
 | `mapa-executivo-produto.md` | Tech Lead de cada produto | Por produto | Novo produto criado a partir do template |
 
 **Conteúdo mínimo:**
@@ -33,14 +33,14 @@ Estes documentos formam o "ciclo nervoso" da plataforma. Devem estar em sincroni
 
 | Arquivo | Tipo | Frequência | Propósito |
 |---------|------|-----------|----------|
-| `tarefas.md` | Checklist | A cada início de sprinta | Estado das tarefas, fases, bloqueadores |
+| `CONTRIBUTING.md` | Checklist | A cada início de sprinta | Estado das tarefas, fases, bloqueadores |
 | `tarefas-objetivo.md` | Objetivos | Ao iniciar sprint | O que estamos tentando alcançar (macro) |
-| `tarefas-log.md` | Append-only | Ao final de cada sessão | Histórico imutável do que foi feito |
-| `tarefas-retomada.md` | Handover | Ao final de cada sessão | Contexto para próxima sessão começar |
+| `work-sessions/YYYYMMDD-HHNN/scratchpad.md` | Append-only | Ao final de cada sessão | Histórico imutável do que foi feito |
+| `REPO-STATUS.md` | Handover | Ao final de cada sessão | Contexto para próxima sessão começar |
 
 **Regras de cada arquivo:**
 
-#### `tarefas.md`
+#### `CONTRIBUTING.md`
 - Checklist com fases (Phase 1, 2, 3, 4...)
 - Marcar progresso: ✅ (done), 🔴 (in progress), ⬜ (not started)
 - Adicionar bloqueadores e notas
@@ -51,7 +51,7 @@ Estes documentos formam o "ciclo nervoso" da plataforma. Devem estar em sincroni
 - Stack canônico confirmado
 - Decisões pendentes
 
-#### `tarefas-log.md` (APPEND-ONLY)
+#### `work-sessions/YYYYMMDD-HHNN/scratchpad.md` (APPEND-ONLY)
 ```markdown
 ## 2026-06-05T14:30-03:00
 - Criado branch `feat/operational-framework`
@@ -62,7 +62,7 @@ Estes documentos formam o "ciclo nervoso" da plataforma. Devem estar em sincroni
 - Nova seção ao final com data ISO 8601
 - Bullets indicando que foi feito
 
-#### `tarefas-retomada.md`
+#### `REPO-STATUS.md`
 - Resumo do contexto atual
 - Estado de cada fase
 - O que está bloqueado e por quê
@@ -77,7 +77,7 @@ Estes documentos formam o "ciclo nervoso" da plataforma. Devem estar em sincroni
 |---------|-----------|-----------------|
 | `README.md` | Visão geral + setup | Bootstrap muda, novo setup |
 | `CLAUDE.md` | Regras do agente | Workflow muda, novas decisões |
-| `docs/GIT-WORKFLOW-VERIFICAÇÃO.md` | Verificações Git obrigatórias | Processo de PR muda |
+| `CONTRIBUTING.md` | Verificações Git obrigatórias | Processo de PR muda |
 | `docs/DECISÕES/ADR-*.md` | Architecture Decision Records | Nova decisão técnica importante |
 
 ---
@@ -107,7 +107,7 @@ git checkout main && git commit -m "..."
 git checkout -b feat/seu-feature
 git commit -m "..."
 git push origin feat/seu-feature
-gh pr create --base dev --head feat/seu-feature
+gh pr create --base main --head feat/seu-feature
 ```
 
 **2. Fluxo de PR sempre**
@@ -121,7 +121,7 @@ gh pr create --base dev --head feat/seu-feature
 
 **4. Main = Sempre Pronto**
 - Apenas merges de `dev` testado
-- Commits rastreáveis em `tarefas-log.md`
+- Commits rastreáveis em `work-sessions/YYYYMMDD-HHNN/scratchpad.md`
 - Sem "apenas um commit rápido"
 
 ---
@@ -163,13 +163,13 @@ grep -r "palavra-chave-do-seu-documento" docs/ *.md
 ```bash
 # 1. Ler documentos de contexto (15 min)
 cat CLAUDE.md
-cat mapa-executivo-plataforma.md
-cat tarefas-retomada.md
-cat tarefas.md
+cat REPO-STATUS.md
+cat REPO-STATUS.md
+cat CONTRIBUTING.md
 
 # 2. Sincronizar repositório
 git fetch --all --prune
-git checkout dev
+git checkout main
 git pull --ff-only origin dev
 
 # 3. Verificar estado
@@ -188,21 +188,21 @@ git commit -m "feat: descrição do que foi feito"
 
 # 3. Push e PR
 git push origin feat/seu-feature
-gh pr create --title "feat: ..." --base dev --head feat/seu-feature
+gh pr create --title "feat: ..." --base main --head feat/seu-feature
 
 # 4. Esperar aprovação do Tech Lead
 ```
 
 ### Fim de Sessão (Obrigatório)
 ```bash
-# 1. Atualizar tarefas-log.md (append-only)
+# 1. Atualizar work-sessions/YYYYMMDD-HHNN/scratchpad.md (append-only)
 # Data ISO 8601, bullets do que foi feito
 
-# 2. Atualizar tarefas-retomada.md
+# 2. Atualizar REPO-STATUS.md
 # Estado atual, bloqueadores, próximos passos
 
 # 3. Commitar atualizações
-git add tarefas-log.md tarefas-retomada.md
+git add work-sessions/YYYYMMDD-HHNN/scratchpad.md REPO-STATUS.md
 git commit -m "chore: update session logs"
 git push origin <branch-atual>
 ```
@@ -217,11 +217,11 @@ Antes de implementar qualquer feature ou mudança, responder:
 ```
 [ ] É nova feature ou manutenção?
 [ ] Afeta stack canônico ou apenas um produto?
-[ ] Tem que estar em mapa-executivo-plataforma.md?
+[ ] Tem que estar em REPO-STATUS.md?
 [ ] Exige ADR (Architecture Decision Record)?
 [ ] Tem testes antes de submeter PR?
 [ ] Docs foram atualizadas?
-[ ] tarefas-log.md será atualizado?
+[ ] work-sessions/YYYYMMDD-HHNN/scratchpad.md será atualizado?
 ```
 
 ### Critérios de Definição de Pronto (DoD)
@@ -230,7 +230,7 @@ Antes de implementar qualquer feature ou mudança, responder:
 - [ ] Testes passando
 - [ ] Documentação atualizada (README, mapa, ADR se necessário)
 - [ ] Tech Lead aprovado
-- [ ] tarefas-log.md atualizado
+- [ ] work-sessions/YYYYMMDD-HHNN/scratchpad.md atualizado
 
 ---
 
@@ -241,14 +241,14 @@ eco00-monorepo/
 ├── README.md                                    # Setup + overview
 ├── CLAUDE.md                                    # Regras do agente
 ├── GUIA-OPERACIONAL.md                          # ← Este arquivo
-├── mapa-executivo-plataforma.md                 # Visão estratégica
+├── REPO-STATUS.md                 # Visão estratégica
 ├── mapa-executivo-produto.md                    # Template para produtos
-├── tarefas.md                                   # Checklist de tarefas
+├── CONTRIBUTING.md                                   # Checklist de tarefas
 ├── tarefas-objetivo.md                          # Objetivos macro
-├── tarefas-log.md                               # Histórico append-only
-├── tarefas-retomada.md                          # Handover entre sessões
+├── work-sessions/YYYYMMDD-HHNN/scratchpad.md                               # Histórico append-only
+├── REPO-STATUS.md                          # Handover entre sessões
 ├── docs/
-│   ├── GIT-WORKFLOW-VERIFICAÇÃO.md              # Regras de verificação Git
+
 │   ├── DECISÕES/                                # Architecture Decision Records
 │   │   ├── ADR-001.md                           # Exemplo: Decisão de stack
 │   │   └── ADR-002.md
@@ -263,7 +263,7 @@ eco00-monorepo/
 ## 🔗 Vinculações Entre Documentos
 
 ```
-mapa-executivo-plataforma.md
+REPO-STATUS.md
     ↓ (define direção)
     ↓ (responde: o que estamos construindo?)
     ↓
@@ -271,17 +271,17 @@ tarefas-objetivo.md
     ↓ (quebra em fases)
     ↓ (responde: como vamos alcançar?)
     ↓
-tarefas.md
+CONTRIBUTING.md
     ↓ (detalha tarefas individuais)
     ↓ (responde: quais são as ações?)
     ↓
 [Desenvolvimento em branches feature]
     ↓ (cada commit, comentário)
     ↓
-tarefas-log.md (append-only)
+work-sessions/YYYYMMDD-HHNN/scratchpad.md (append-only)
     ↓ (registra o que foi feito)
     ↓
-tarefas-retomada.md
+REPO-STATUS.md
     ↓ (resume estado para próxima sessão)
     ↓
 [Próxima sessão lê e continua]
@@ -308,7 +308,7 @@ git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -D
 ### Situação 3: "Dev e main ficaram dessincronizados"
 **Recuperar:**
 ```bash
-git checkout dev
+git checkout main
 git pull --ff-only origin dev
 git log --oneline -5                 # Verificar estado
 # Se dev está atrasado:
@@ -359,7 +359,7 @@ gh pr create --base main
 git checkout -b feat/xxx
 git commit -m "..."
 git push origin feat/xxx
-gh pr create --base dev --head feat/xxx
+gh pr create --base main --head feat/xxx
 ```
 
 **Como foi feito (erro):**
@@ -379,10 +379,10 @@ gh pr create --base dev --head feat/xxx
 
 | Frequência | O que | Quem | Onde |
 |-----------|------|------|------|
-| A cada sessão | tarefas-log.md | Agente | Append ao final |
-| A cada sessão | tarefas-retomada.md | Agente | Reescrever estado |
-| Semanal | tarefas.md | Tech Lead | Atualizar progresso |
-| Mensal | mapa-executivo-plataforma.md | Tech Lead | Se houver decisão estratégica |
+| A cada sessão | work-sessions/YYYYMMDD-HHNN/scratchpad.md | Agente | Append ao final |
+| A cada sessão | REPO-STATUS.md | Agente | Reescrever estado |
+| Semanal | CONTRIBUTING.md | Tech Lead | Atualizar progresso |
+| Mensal | REPO-STATUS.md | Tech Lead | Se houver decisão estratégica |
 | Sempre que há decisão | ADR nova | Tech Lead | Criar em docs/DECISÕES/ |
 
 ---
@@ -392,7 +392,7 @@ gh pr create --base dev --head feat/xxx
 **O que NÃO fazer:**
 - ❌ Commitar em `main` ou `dev` diretamente
 - ❌ Deixar branch local sem ser sincronizada com remote
-- ❌ Não atualizar tarefas-log.md ao final da sessão
+- ❌ Não atualizar work-sessions/YYYYMMDD-HHNN/scratchpad.md ao final da sessão
 - ❌ Fazer merge sem Tech Lead revisar
 - ❌ Não verificar stack canônico antes de propor tech
 - ❌ Deixar documento vivo desatualizado
@@ -401,9 +401,9 @@ gh pr create --base dev --head feat/xxx
 - ✅ Criar branch para cada feature (`feat/xxx`)
 - ✅ Submeter PR (base: `dev`)
 - ✅ Esperar aprovação do Tech Lead
-- ✅ Atualizar `tarefas-log.md` (append-only) ao final de sessão
-- ✅ Manter `tarefas-retomada.md` com estado atual
-- ✅ Verificar stack canônico em `mapa-executivo-plataforma.md`
+- ✅ Atualizar `work-sessions/YYYYMMDD-HHNN/scratchpad.md` (append-only) ao final de sessão
+- ✅ Manter `REPO-STATUS.md` com estado atual
+- ✅ Verificar stack canônico em `REPO-STATUS.md`
 - ✅ Sincronizar local = remote (sempre)
 
 ---
@@ -411,8 +411,8 @@ gh pr create --base dev --head feat/xxx
 ## 🎓 Leitura Obrigatória de Referência
 
 1. `CLAUDE.md` — Regras do agente (ler no início de cada sessão)
-2. `mapa-executivo-plataforma.md` — Decisões estratégicas
-3. `docs/GIT-WORKFLOW-VERIFICAÇÃO.md` — Verificações Git
+2. `REPO-STATUS.md` — Decisões estratégicas
+3. `CONTRIBUTING.md` — Verificações Git
 4. Este arquivo (`GUIA-OPERACIONAL.md`) — Operações do dia a dia
 
 ---
@@ -469,7 +469,7 @@ gh pr create --base dev --head feat/xxx
    git checkout -b feat/sua-feature
    [fazer mudanças]
    git commit + git push origin feat/sua-feature
-   gh pr create --base dev --head feat/sua-feature
+   gh pr create --base main --head feat/sua-feature
    ```
 3. **Se cometeu erro:**
    ```bash
@@ -510,7 +510,7 @@ gh pr create --base dev --head feat/xxx
 
 ## 📞 Quando Chamar Tech Lead
 
-- [ ] Decisão estratégica que não está em `mapa-executivo-plataforma.md`
+- [ ] Decisão estratégica que não está em `REPO-STATUS.md`
 - [ ] Conflito no fluxo Git
 - [ ] PR bloqueada
 - [ ] Dúvida sobre stack canônico
