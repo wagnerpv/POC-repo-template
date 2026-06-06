@@ -1,0 +1,143 @@
+# Contributing
+
+## Branch Naming
+
+Todo trabalho acontece em branches, nunca em `main` diretamente.
+
+| Prefixo | Uso |
+|---------|-----|
+| `work-session-YYYYMMDD-HHNN` | Branch de sessão de trabalho do agente |
+| `feat/xyz` | Nova funcionalidade |
+| `fix/xyz` | Correção de bug |
+| `chore/xyz` | Manutenção (docs, cleanup, scripts) |
+| `refactor/xyz` | Refatoração de código |
+| `docs/xyz` | Documentação |
+
+**Fuso:** Brasil (-03:00) para timestamps.
+
+**Exemplo:** `work-session-20260606-1700` (06 de junho de 2026, 17:00 Brasil)
+
+## Commits
+
+Commits atômicos e descritivos:
+
+```bash
+git commit -m "type: descrição curta
+
+Explicação mais longa se necessário.
+- Detalhe específico
+- Outro detalhe"
+```
+
+**Types:** `feat`, `fix`, `chore`, `docs`, `refactor`, `test`
+
+## Pull Requests
+
+1. Criar PR da branch para `main`
+2. Título: descreve o que mudou
+3. Descrição: explica o porquê
+4. Linkar issues relacionadas
+
+**Nunca commitar diretamente em `main` — sempre via PR.**
+
+## Work Sessions (Agente)
+
+Cada sessão de trabalho do agente segue este ciclo:
+
+### Início de Sessão
+
+```bash
+# 1. Sincronizar
+git fetch --all --prune
+
+# 2. Limpar branches stale
+git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
+
+# 3. Criar branch de sessão (NUNCA trabalhar em main)
+git checkout -b work-session-YYYYMMDD-HHNN
+# Exemplo: git checkout -b work-session-20260606-1700
+
+# 4. Criar pasta de sessão e scratchpad
+mkdir -p work-sessions/YYYYMMDD-HHNN
+cp work-sessions/TEMPLATE-scratchpad.md work-sessions/YYYYMMDD-HHNN/scratchpad.md
+# Editar scratchpad.md com contexto inicial
+
+# 5. Gerar REPO-STATUS.md
+export GITHUB_TOKEN='...'
+bash scripts/repo-status.sh > REPO-STATUS.md
+```
+
+### Durante a Sessão
+
+```bash
+# Trabalhar em work-session-YYYYMMDD-HHNN
+# Múltiplos commits OK
+git add <files>
+git commit -m "feat/chore/docs: descrição"
+
+# Atualizar scratchpad com progresso
+# work-sessions/YYYYMMDD-HHNN/scratchpad.md
+```
+
+### Fim de Sessão
+
+```bash
+# 1. Atualizar scratchpad com resultado final
+# 2. Registrar resultado no CHANGELOG.md
+# 3. Commitar
+git add work-sessions/ CHANGELOG.md REPO-STATUS.md
+git commit -m "chore: close session YYYYMMDD-HHNN"
+
+# 4. Renomear branch para nome semântico
+git branch -m work-session-YYYYMMDD-HHNN feat/ou-chore/ou-docs/nome-semantico
+
+# 5. Push e PR
+git push origin feat/nome-semantico
+gh pr create --base main --head feat/nome-semantico --title "..." --body "..."
+```
+
+### Próxima Sessão (após merge do PR)
+
+```bash
+git fetch --all --prune
+git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
+git checkout -b work-session-YYYYMMDD-HHNN   # nova sessão, novo timestamp
+bash scripts/repo-status.sh > REPO-STATUS.md  # estado atual
+```
+
+## CHANGELOG.md
+
+O `CHANGELOG.md` é o histórico global de entregas do repositório.
+
+**Quando atualizar:** Ao fechar cada sessão de trabalho, registrar o que foi entregue.
+
+**Formato:**
+
+```markdown
+## [YYYY-MM-DD] Título da entrega
+
+- O que foi feito
+- Pacote ou feature entregue
+- Testes: X/X ✅
+
+**Branch:** feat/nome-semantico
+**PR:** #N
+```
+
+**Regras:**
+- Entradas em ordem cronológica reversa (mais recente primeiro)
+- Focar no resultado, não no processo
+- O processo fica no `scratchpad.md` da sessão
+- Só registrar o que foi mergeado em `main`
+
+## REPO-STATUS.md
+
+Estado ao vivo do repositório: último commit, PRs abertos, issues abertas.
+
+**Gerado automaticamente:**
+```bash
+export GITHUB_TOKEN='...'
+bash scripts/repo-status.sh > REPO-STATUS.md
+```
+
+**Nunca editar manualmente.**
