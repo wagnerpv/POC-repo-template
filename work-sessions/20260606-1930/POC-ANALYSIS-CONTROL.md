@@ -7,9 +7,9 @@
 | POC-agente-git-sandbox | ✅ Concluído | analise-POC-agente-git-sandbox.md |
 | POC-app00ui-astro | ✅ Concluído | analise-POC-app00ui-astro.md |
 | POC-appml-grammar | ✅ Concluído | analise-POC-appml-grammar.md |
-| POC-astro00 | ⏳ Pendente | — |
-| POC-basta00 | ⏳ Pendente | — |
-| POC-carteiro-service-2026 | ⏳ Pendente | — |
+| POC-astro00 | ✅ Concluído | analise-POC-astro00.md |
+| POC-basta00 | ✅ Concluído | analise-POC-basta00.md |
+| POC-carteiro-service-2026 | ✅ Concluído | analise-POC-carteiro-service-2026.md |
 | POC-eco00-event-system | ⏳ Pendente | — |
 | POC-eco00-monorepo-template | ⏳ Pendente | — |
 | POC-firebird | ⏳ Pendente | — |
