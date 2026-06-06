@@ -88,12 +88,9 @@ git commit -m "feat/chore/docs: descrição"
 git add work-sessions/ CHANGELOG.md REPO-STATUS.md
 git commit -m "chore: close session YYYYMMDD-HHNN"
 
-# 4. Renomear branch para nome semântico
-git branch -m work-session-YYYYMMDD-HHNN feat/ou-chore/ou-docs/nome-semantico
-
-# 5. Push e PR
-git push origin feat/nome-semantico
-gh pr create --base main --head feat/nome-semantico --title "..." --body "..."
+# 4. Push e PR (branch mantém o nome da sessão)
+git push origin work-session-YYYYMMDD-HHNN
+gh pr create --base main --head work-session-YYYYMMDD-HHNN --title "work-session-YYYYMMDD-HHNN" --body "..."
 ```
 
 ### Próxima Sessão (após merge do PR)
