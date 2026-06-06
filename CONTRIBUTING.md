@@ -127,6 +127,28 @@ O `CHANGELOG.md` é o histórico global de entregas do repositório.
 - O processo fica no `scratchpad.md` da sessão
 - Só registrar o que foi mergeado em `main`
 
+## Drafts
+
+A pasta `drafts/` é a área de rascunhos e WIP do repositório.
+
+**Quando usar:**
+- Visões de produto em elaboração
+- Pesquisas e análises de referência (ex: comparativos com outros frameworks)
+- Decisões arquiteturais ainda não estabilizadas
+- Qualquer documento que ainda não é spec nem doc oficial
+
+**Regras:**
+- Arquivos em `drafts/` não têm compromisso de estabilidade — podem mudar ou ser descartados
+- Não referenciar arquivos de `drafts/` em código de produção ou testes
+- Quando um draft estabilizar, migrar para `docs/` com PR explícito
+
+**O que não vai para `drafts/`:**
+- Código (vai para `packages/` ou `apps/`)
+- Sessões de trabalho (vão para `work-sessions/`)
+- Documentação oficial de packages (vai junto ao package)
+
+---
+
 ## REPO-STATUS.md
 
 Estado ao vivo do repositório: último commit, PRs abertos, issues abertas.

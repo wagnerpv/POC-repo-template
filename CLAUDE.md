@@ -55,5 +55,6 @@ Antes de qualquer ação, ler na ordem:
 | `REPO-STATUS.md` | Estado ao vivo do repo (gerado por scripts/repo-status.sh) |
 | `CHANGELOG.md` | Histórico de entregas mergeadas |
 | `work-sessions/README.md` | Como usar a estrutura de sessões |
+| `drafts/` | Rascunhos e WIP — docs ainda não estabilizados |
 | `docs/standards/FILESYSTEM-CONVENTIONS.md` | Convenções de filesystem para ambientes |
 | `docs/deploy/MINI-SPEC-RELEASE-VENDOR-DEPLOY.md` | Release, vendor, deploy |
