@@ -24,8 +24,8 @@ REPO_URL=$(git remote get-url origin)
 REPO=$(echo "$REPO_URL" | sed -E 's|.*github\.com[:/]||;s|\.git$||')
 
 # Sync
-git fetch origin
-git remote prune origin
+git fetch origin > /dev/null 2>&1
+git remote prune origin > /dev/null 2>&1
 
 # Último commit em main com fuso Brasil
 COMMIT_DATA=$(git log -1 --format="%aI|%s" main)
