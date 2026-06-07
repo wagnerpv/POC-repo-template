@@ -93,6 +93,21 @@ git push origin work-session-YYYYMMDD-HHNN
 gh pr create --base main --head work-session-YYYYMMDD-HHNN --title "work-session-YYYYMMDD-HHNN" --body "..."
 ```
 
+
+### Sessões Encerradas
+
+Ao encerrar uma sessão, renomear a pasta com sufixo `-ended`:
+
+```bash
+# Após merge do PR da sessão
+mv work-sessions/YYYYMMDD-HHNN work-sessions/YYYYMMDD-HHNN-ended
+git add work-sessions/
+git commit -m "chore: marca sessão YYYYMMDD-HHNN como encerrada"
+git push origin main  # ou via PR se main for protegida
+```
+
+Isso sinaliza visualmente que a sessão está fechada sem apagar o histórico. Atualizar o índice `work-sessions/README.md` em seguida.
+
 ### Próxima Sessão (após merge do PR)
 
 ```bash
