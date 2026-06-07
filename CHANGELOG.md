@@ -66,3 +66,11 @@ Histórico de entregas mergeadas em `main`. Ordem cronológica reversa.
 **PR:** #N
 
 -->
+
+## [2026-06-06] Canonização de padrões eco00
+
+- `drafts/` adicionado à estrutura canônica com documentação no CONTRIBUTING
+- Convenção de sessões encerradas com sufixo `-ended` canonizada
+- fix: `scripts/repo-status.sh` — git fetch e prune redirecionados para `/dev/null`
+- Repo renomeado de `POC-eco00-monorepo-template` para `POC-repo-template`
+- `CLAUDE.md` e `CONTRIBUTING.md` atualizados
