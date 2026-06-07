@@ -49,6 +49,8 @@ Cada sessão de trabalho do agente segue este ciclo:
 ```bash
 # 1. Sincronizar
 git fetch --all --prune
+git checkout main
+git pull origin main
 
 # 2. Limpar branches stale
 git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
